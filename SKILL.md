@@ -112,6 +112,7 @@ If both are plausible and the user did not decide, prefer Mermaid for simple str
 - Keep the source readable enough that a human can edit it without rendering first.
 
 Read [references/mermaid.md](references/mermaid.md) when choosing diagram types or syntax patterns.
+Start from [assets/mermaid-doc-template.md](assets/mermaid-doc-template.md) for new Markdown-hosted diagrams and [assets/standalone-diagram-template.mmd](assets/standalone-diagram-template.mmd) for new standalone Mermaid files.
 
 ## Draw.io Rules
 
@@ -159,6 +160,7 @@ Choose the storage location based on the repository's existing documentation lay
 - If a standalone diagram explains multiple documents or features, prefer the shared diagrams directory and link to it from nearby docs.
 - Preserve existing naming and placement conventions instead of creating a parallel diagram structure.
 - When a diagrams folder exists, update its nearest `README.md`, index page, or linking document so developers can discover the new artifact.
+- Prefer [assets/standalone-diagram-template.mmd](assets/standalone-diagram-template.mmd) when creating a new reusable Mermaid file in a shared diagrams folder.
 
 ## Markdown Hosting
 
@@ -174,6 +176,7 @@ For Markdown-hosted diagrams:
 - Keep one primary diagram per section.
 - If the file contains several diagrams, add a small index or table of contents near the top.
 - Prefer placing the Mermaid block close to the text it explains rather than creating a disconnected diagram dump.
+- Prefer [assets/mermaid-doc-template.md](assets/mermaid-doc-template.md) when creating a new diagram-focused Markdown page from scratch.
 
 ## Design-Time Preview
 
