@@ -19,6 +19,8 @@ Prefer uncompressed XML:
 </mxfile>
 ```
 
+Always set the page background color explicitly for new diagrams. Do not assume a light-looking editor canvas behaves like a real white page in dark mode.
+
 ## Common Shape Pattern
 
 Each visible shape is usually an `mxCell` with:
@@ -67,15 +69,16 @@ Prefer this pattern over freehand line placement because explicit `source` and `
 - Prefer connectors with explicit `source` and `target` IDs.
 - After editing, preview the file and verify arrowheads visibly land on the intended shape edges.
 - When a connector targets a broad container and renders poorly, connect it to a nearby concrete node or add a small anchor node to make the relationship unambiguous.
-- Set an explicit page or canvas background strategy for new diagrams so readability does not depend on dark-mode or light-mode editor defaults.
+- Always set an explicit page background color for new diagrams so readability does not depend on dark-mode or light-mode editor defaults.
 - Allow transparent labels when they sit on that known page background or inside a filled shape with sufficient contrast.
+- When transparent labels are used, set `Background Style = None` so draw.io uses the simpler SVG/text fallback path instead of the theme-dependent HTML label layer.
+- This is a source-level rendering rule, not just a styling preference: `Background Style = None` changes the label rendering path so transparent text resolves against the page instead of the editor canvas.
+- When hand-editing XML for transparent edge labels, also set `labelBackgroundColor=none;` on the edge style so the label reveals the page background or local filled surface instead of a theme-colored plate.
 - When a label crosses connectors, mixed fills, or busy areas, use explicit label styling or a dedicated label box instead of relying on transparency alone.
-- In the dark diagrams.net editor, labels can fall back to black plates or black rectangles when they are under-specified. Treat that as a bug and correct it with a stable canvas background or explicit label styling.
-- Do not leave freestanding text labels with transparent backgrounds when they sit on the canvas or overlap other shapes or lines.
-- Prefer filled label boxes, note shapes, or explicit label background styling for edge labels and annotations so they remain readable in dark and light themes.
+- In the dark diagrams.net editor, labels can fall back to black plates, black rectangles, or canvas-punch-through transparency when they are under-specified, when the page background is not explicitly set, or when `Background Style` is not `None`. Treat that as a bug and correct it by setting the page background color first, then using `Background Style = None`, then adjusting label styling only if needed.
 - In the dark diagrams.net editor, edge labels without explicit styling can render as large black rectangles or black label plates. Treat that as a bug.
 - For edge labels, prefer one of these patterns:
-  - Transparent or minimally styled text on a stable readable canvas or filled local surface
+  - Transparent or minimally styled text on a stable readable page background or filled local surface, with `Background Style = None` and `labelBackgroundColor=none;` in source-edited XML
   - Explicit edge label styling, including background only when needed, when the text crosses lines or busy areas
   - A separate small label vertex near the connector, with its own fill and stroke, when precise placement or theme-safe readability matters more than compact XML
 - Prefer the separate label vertex pattern in dense diagrams, but do not add opaque label boxes everywhere when a stable canvas background preserves readability with less visual clutter.

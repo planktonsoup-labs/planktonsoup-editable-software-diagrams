@@ -30,7 +30,8 @@ Treat this distinction as a priority, not an optional polish pass.
 - Include a short subtitle, caption, or nearby context sentence explaining scope.
 - Prefer bold labels for major nodes and groups.
 - Reserve regular text for small annotations, examples, or code-like snippets.
-- For Draw.io, establish a deliberate page or canvas background first, then allow transparent labels where that known surface keeps them readable.
+- For Draw.io, establish an explicit page background color first, then allow transparent labels where that known surface keeps them readable.
+- When Draw.io labels should remain transparent, require `Background Style = None` so transparency resolves against the page rendering path rather than the editor canvas layer.
 - Use explicit label backgrounds only when labels sit on busy, mixed, or line-heavy surfaces.
 
 ## Connectors
