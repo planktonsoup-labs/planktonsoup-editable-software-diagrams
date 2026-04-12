@@ -70,4 +70,4 @@ Treat this distinction as a priority, not an optional polish pass.
 - Do not let dashed container borders visually compete with dashed optional arrows; if both are needed, differentiate them by color or stroke weight.
 - In complex Draw.io diagrams, use subtle fills and quieter boundaries for areas so connectors remain the strongest directional marks on the page.
 - In Draw.io, route connectors so parallel or crossing lines remain visually separable instead of sitting on top of each other.
-- In Draw.io, place labels inside readable filled shapes or give label text an explicit background treatment so the label survives both dark-mode and light-mode editing surfaces.
+- In Draw.io, use transparent labels on the explicit page background by default, and fall back to label fills only for busy local surfaces.

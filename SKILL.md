@@ -43,13 +43,15 @@ Do not switch to PlantUML, Excalidraw, SVG, PNG, Visio, or image-generation work
 
 ## Workflow
 
-1. Inspect the request and any existing diagram files before choosing a format.
-2. Use official or high-signal MCP tools when they materially improve accuracy or save time gathering diagram inputs.
-3. Reuse the existing format when editing an existing diagram unless the user explicitly asks to migrate it.
-4. If no format is specified, choose the simplest editable format that preserves the intent.
-5. Produce the diagram source directly; do not describe a diagram without creating the file content unless the user asked for concepts only.
-6. Verify the rendered structure, not just the text syntax, before finalizing.
-7. Keep the output diff-friendly and avoid generated noise.
+1. Inspect the request, the relevant code, nearby docs, and any existing diagrams before choosing a format or abstraction level.
+2. Base the diagram on the implementation that actually exists in the project. Prefer real modules, services, tables, queues, topics, endpoints, jobs, environments, and boundaries over guessed placeholders.
+3. Use official or high-signal MCP tools when they materially improve accuracy or save time gathering inputs.
+4. Reuse the existing format when editing an existing diagram unless the user explicitly asks to migrate it.
+5. If the requested diagram type or notation is unclear, research the common convention for that diagram type before inventing a structure.
+6. If no format is specified, choose the simplest editable format that preserves the intent.
+7. Produce the diagram source directly; do not describe a diagram without creating the file content unless the user asked for concepts only.
+8. Verify the rendered structure, not just the text syntax, before finalizing.
+9. Keep the output diff-friendly and avoid generated noise.
 
 ## Decision Rules
 
@@ -65,12 +67,20 @@ Apply this order:
 
 Use MCP tools when they are official, already configured, or clearly better than ad hoc inspection.
 
+- Prefer local workspace inspection first when diagramming a codebase that is already present; the diagram should reflect the implemented system, not a guessed architecture.
 - Prefer repository or GitHub MCP tools to inspect PRs, changed files, issue context, and remote source artifacts before diagramming a system or change.
 - Prefer product-specific official MCP tools when diagramming external systems, APIs, schemas, or platform resources and those tools expose authoritative data.
 - Prefer MCP or repository search over guesswork when the diagram depends on actual code structure, service names, schema shape, or deployed resources.
 - Prefer local shell/file inspection when the needed context is already in the workspace and MCP would add overhead without improving accuracy.
 - Do not invent MCP dependencies in the skill metadata unless the skill actually requires them to function.
 - Keep the skill format-agnostic: MCP tools help gather inputs, but the output should still be Mermaid or draw.io source.
+
+## Research Conventions Only When Needed
+
+- If the user clearly names the diagram type and the project already has similar diagrams, follow the existing project pattern.
+- If the diagram type is unclear, mixed, or unusual, research the common rendering convention before inventing a custom structure.
+- Prefer established technical diagram conventions over novel notation.
+- Keep the research lightweight and focused on structure, notation, and common expectations for that diagram family, not on style churn.
 
 ## Choose The Format
 
@@ -99,7 +109,8 @@ If both are plausible and the user did not decide, prefer Mermaid for simple str
 
 - Read the existing file first and preserve the current format.
 - Make the smallest coherent change that satisfies the request.
-- Preserve labels, IDs, and layout intent unless the request requires a broader rework.
+- Preserve labels, IDs, layout intent, and surrounding documentation structure unless the request requires a broader rework.
+- Do not revamp an existing diagram unless the request requires it or the current diagram violates the skill's correctness or readability requirements.
 - For draw.io, keep files uncompressed when possible so diffs stay readable.
 - For Mermaid embedded in Markdown, edit only the targeted fenced block unless the surrounding prose also needs updates.
 
@@ -132,10 +143,10 @@ Start from [assets/mermaid-doc-template.md](assets/mermaid-doc-template.md) for 
 - When a connector must land on a specific shape, use concrete endpoints or stable entry/exit anchoring instead of relying on approximate placement.
 - Always set an explicit page background color for draw.io diagrams so text readability does not depend on the editor theme alone.
 - Prefer transparent labels when they sit on that known page background or on a known filled shape and remain readable there.
-- When using transparent labels in draw.io, set `Background Style = None` so the editor uses the simpler text rendering path instead of the theme-dependent HTML label layer.
-- For source-edited transparent edge labels, encode that choice directly in the edge style by using `labelBackgroundColor=none;` together with the explicit page background so the label shows the page or local surface behind it instead of a dark theme plate.
+- When using transparent labels in draw.io, require `Background Style = None`.
+- For source-edited transparent edge labels, encode that choice directly with `labelBackgroundColor=none;`.
 - Use explicit label backgrounds or dedicated label boxes only when text sits over connectors, mixed fills, or otherwise busy surfaces.
-- Treat edge label rendering in dark diagrams.net themes as a correctness concern, not cosmetic polish. Avoid label treatments that fall back to theme-dependent black plates, black rectangles, or HTML-style transparent labels punching through to the editor canvas.
+- Treat theme-dependent black label plates, black rectangles, or canvas-punch-through transparency as correctness bugs.
 - When an edge needs a text label, either:
   - keep the label transparent only when it sits on a stable readable canvas or filled local surface,
   - give the edge an explicit label style with readable `fontColor` and any needed background or spacing only when the text crosses lines or busy areas, or
@@ -161,7 +172,6 @@ When the repository does not already enforce a conflicting diagram style, prefer
 - Use solid arrows for required flows and dashed arrows or borders for optional, pluggable, or extensible relationships.
 - Avoid giving arrows and area boundaries the same line weight, dash pattern, and color in dense diagrams.
 - Avoid routing multiple meaningful lines along the same visual trajectory when they could be mistaken for one line.
-- Ensure freestanding text labels remain readable regardless of editor theme by giving them explicit background treatment or placing them inside filled label shapes.
 - Keep page or canvas width moderate so the diagram fits comfortably in common documentation views.
 - If containers and connectors still read as the same texture after styling, reduce density or split the diagram rather than accepting the ambiguity.
 - If two connectors or a connector and a boundary overlap for a meaningful stretch, reroute, offset, or split the diagram instead of accepting the overlap.
@@ -230,10 +240,9 @@ Before finalizing a diagram, verify these points explicitly:
 - If the diagram is crowded enough that verification is ambiguous, simplify it or split it into two focused diagrams.
 - In draw.io, verify that each changed edge has the intended `source` and `target` IDs and does not rely only on freehand coordinates.
 - In draw.io, check that routed connectors still attach correctly after moving grouped boxes, containers, or section boundaries.
-- In draw.io, verify that the page background color is explicitly set and that labels remain readable in both dark and light render modes, whether that readability comes from that page background, a filled local surface, or an explicit label background.
-- In draw.io, verify that any transparent labels use `Background Style = None` and do not render through to the editor canvas instead of the page background.
-- In draw.io, verify that source-edited transparent edge labels keep `labelBackgroundColor=none;` so the label remains transparent to the page or filled surface instead of picking up a theme-dependent plate.
-- In draw.io, verify that connector labels do not fall back to theme-default black label plates in the dark editor. If they do, set the page background color first, then add explicit edge label styling or replace them with dedicated label boxes only if needed.
+- In draw.io, verify that the page background color is explicitly set and that labels remain readable in both dark and light render modes.
+- In draw.io, verify that transparent labels use `Background Style = None` and that source-edited transparent edge labels keep `labelBackgroundColor=none;`.
+- In draw.io, verify that connector labels do not fall back to theme-default black plates or editor-canvas punch-through. If they do, fix the page/background-style setup first, then add explicit label treatment only if needed.
 - In Mermaid, verify that every referenced node ID exists exactly once and that edges render to the intended node after any rename or refactor.
 - In Mermaid, verify in a rendered preview that arrowheads visibly meet the intended node or anchor node rather than stopping short or appearing offset.
 - In Mermaid, if long or diagonal edges render poorly, shorten the route by re-laying out nodes, adding intermediate anchor nodes, or splitting the diagram instead of accepting a barely attached edge.
@@ -265,6 +274,7 @@ If the request is underspecified, infer the smallest useful diagram:
 Unless the user asks for a different level of abstraction:
 
 - Prefer naming components after real code modules, services, jobs, tables, topics, or APIs.
+- Derive names and boundaries from the repository's actual implementation, not from idealized architecture language, unless the user explicitly wants a conceptual view.
 - Show system boundaries explicitly when crossing repositories, services, clouds, or trust zones.
 - Distinguish internal components from external providers.
 - Show only the level of detail needed for the current engineering question.

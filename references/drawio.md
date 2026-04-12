@@ -75,8 +75,7 @@ Prefer this pattern over freehand line placement because explicit `source` and `
 - This is a source-level rendering rule, not just a styling preference: `Background Style = None` changes the label rendering path so transparent text resolves against the page instead of the editor canvas.
 - When hand-editing XML for transparent edge labels, also set `labelBackgroundColor=none;` on the edge style so the label reveals the page background or local filled surface instead of a theme-colored plate.
 - When a label crosses connectors, mixed fills, or busy areas, use explicit label styling or a dedicated label box instead of relying on transparency alone.
-- In the dark diagrams.net editor, labels can fall back to black plates, black rectangles, or canvas-punch-through transparency when they are under-specified, when the page background is not explicitly set, or when `Background Style` is not `None`. Treat that as a bug and correct it by setting the page background color first, then using `Background Style = None`, then adjusting label styling only if needed.
-- In the dark diagrams.net editor, edge labels without explicit styling can render as large black rectangles or black label plates. Treat that as a bug.
+- In the dark diagrams.net editor, under-specified labels can fall back to black plates, black rectangles, or canvas-punch-through transparency. Treat that as a bug and correct it by setting the page background color first, then using `Background Style = None`, then adjusting label styling only if needed.
 - For edge labels, prefer one of these patterns:
   - Transparent or minimally styled text on a stable readable page background or filled local surface, with `Background Style = None` and `labelBackgroundColor=none;` in source-edited XML
   - Explicit edge label styling, including background only when needed, when the text crosses lines or busy areas
