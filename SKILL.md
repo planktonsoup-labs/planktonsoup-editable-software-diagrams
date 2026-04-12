@@ -165,6 +165,17 @@ For Markdown-hosted diagrams:
 - If the file contains several diagrams, add a small index or table of contents near the top.
 - Prefer placing the Mermaid block close to the text it explains rather than creating a disconnected diagram dump.
 
+## Design-Time Preview
+
+Use online or app-based viewers as optional design-time aids, not as the long-term source of truth.
+
+- Preview Mermaid in a Mermaid-compatible live editor when checking syntax, layout, or readability during authoring.
+- Preview `.drawio` files in diagrams.net or another draw.io-compatible editor when refining placement, sizing, connectors, or grouping.
+- Save the final diagram source back into the repository as Markdown-embedded Mermaid, standalone `.mmd`, or `.drawio`.
+- Do not make repository documentation depend on external viewer links unless the user explicitly asks for them.
+- Prefer repository-native viewing first: Markdown-hosted Mermaid for easy reading in docs, and in-repo `.drawio` files for editable canvas diagrams.
+- Use preview tools to validate or refine the diagram, then preserve the final artifact in a diffable form inside the repo.
+
 ## File Naming
 
 - Use descriptive names such as `auth-sequence.mmd`, `order-lifecycle.mmd`, or `deployment.drawio`.
