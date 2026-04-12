@@ -132,11 +132,11 @@ Start from [assets/mermaid-doc-template.md](assets/mermaid-doc-template.md) for 
 - When a connector must land on a specific shape, use concrete endpoints or stable entry/exit anchoring instead of relying on approximate placement.
 - Set an explicit page or canvas background strategy for new draw.io diagrams so text readability does not depend on the editor theme alone.
 - Prefer transparent labels when they sit on that known canvas background or on a known filled shape and remain readable there.
-- Use explicit opaque label backgrounds or dedicated label boxes only when text sits over connectors, mixed fills, or otherwise busy surfaces.
+- Use explicit label backgrounds or dedicated label boxes only when text sits over connectors, mixed fills, or otherwise busy surfaces.
 - Treat edge label rendering in dark diagrams.net themes as a correctness concern, not cosmetic polish. Avoid label treatments that fall back to theme-dependent black plates or black rectangles.
 - When an edge needs a text label, either:
   - keep the label transparent only when it sits on a stable readable canvas or filled local surface,
-  - give the edge an explicit label style with `labelBackgroundColor`, readable `fontColor`, and sufficient spacing when the text crosses lines or busy areas, or
+  - give the edge an explicit label style with readable `fontColor` and any needed background or spacing only when the text crosses lines or busy areas, or
   - place the text in a small dedicated label vertex near the connector instead of relying on the edge's default label rendering.
 - Prefer dedicated label vertices over inline edge labels in dense diagrams, but do not add opaque label plates by default when a stable canvas background preserves readability more cleanly.
 

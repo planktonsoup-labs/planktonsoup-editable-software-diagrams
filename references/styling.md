@@ -31,7 +31,7 @@ Treat this distinction as a priority, not an optional polish pass.
 - Prefer bold labels for major nodes and groups.
 - Reserve regular text for small annotations, examples, or code-like snippets.
 - For Draw.io, establish a deliberate page or canvas background first, then allow transparent labels where that known surface keeps them readable.
-- Use explicit opaque or high-contrast label backgrounds only when labels sit on busy, mixed, or line-heavy surfaces.
+- Use explicit label backgrounds only when labels sit on busy, mixed, or line-heavy surfaces.
 
 ## Connectors
 

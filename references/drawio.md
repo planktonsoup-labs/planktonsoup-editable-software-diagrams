@@ -69,12 +69,13 @@ Prefer this pattern over freehand line placement because explicit `source` and `
 - When a connector targets a broad container and renders poorly, connect it to a nearby concrete node or add a small anchor node to make the relationship unambiguous.
 - Set an explicit page or canvas background strategy for new diagrams so readability does not depend on dark-mode or light-mode editor defaults.
 - Allow transparent labels when they sit on that known page background or inside a filled shape with sufficient contrast.
-- When a label crosses connectors, mixed fills, or busy areas, use explicit label styling or a dedicated label box instead of relying on transparency.
+- When a label crosses connectors, mixed fills, or busy areas, use explicit label styling or a dedicated label box instead of relying on transparency alone.
 - In the dark diagrams.net editor, labels can fall back to black plates or black rectangles when they are under-specified. Treat that as a bug and correct it with a stable canvas background or explicit label styling.
 - Do not leave freestanding text labels with transparent backgrounds when they sit on the canvas or overlap other shapes or lines.
 - Prefer filled label boxes, note shapes, or explicit label background styling for edge labels and annotations so they remain readable in dark and light themes.
 - In the dark diagrams.net editor, edge labels without explicit styling can render as large black rectangles or black label plates. Treat that as a bug.
-- For edge labels, prefer one of these two patterns:
-  - Explicit edge label styling such as `labelBackgroundColor=#f8fafc;fontColor=#0f172a;spacing=4;`
-  - A separate small label vertex near the connector, with its own fill and stroke, when precise placement or theme-safe readability matters more than compact XML.
-- Prefer the separate label vertex pattern in dense diagrams, because it avoids theme-dependent edge-label rendering and gives more control over overlap.
+- For edge labels, prefer one of these patterns:
+  - Transparent or minimally styled text on a stable readable canvas or filled local surface
+  - Explicit edge label styling, including background only when needed, when the text crosses lines or busy areas
+  - A separate small label vertex near the connector, with its own fill and stroke, when precise placement or theme-safe readability matters more than compact XML
+- Prefer the separate label vertex pattern in dense diagrams, but do not add opaque label boxes everywhere when a stable canvas background preserves readability with less visual clutter.
