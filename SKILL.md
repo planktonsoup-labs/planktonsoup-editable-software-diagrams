@@ -124,7 +124,8 @@ If both are plausible and the user did not decide, prefer Mermaid for simple str
 - Prefer explicit edge labels when transitions or data movement would otherwise be ambiguous.
 - Keep Mermaid labels parser-safe. Prefer plain words and short phrases over code-like snippets with embedded quotes, escaped string literals, or heavy punctuation inside node or edge labels.
 - When a label needs to mention example values or method calls, rewrite it into Mermaid-safe prose such as `Add apple` instead of `Add("apple")`, or move the exact literal example into surrounding Markdown.
-- Do not add Draw.io-style label backfills, label plates, or semi-opaque label boxes to Mermaid connector labels. Keep Mermaid edge labels plain unless Mermaid's own styling is specifically needed for semantic meaning.
+- Do not add Draw.io-style label backfills, label plates, or semi-opaque label boxes to Mermaid connector labels.
+- Mermaid connector labels must keep a transparent background fill. If a Mermaid render shows a filled plate or backfill behind connector text, treat that as incorrect and remove the styling that caused it.
 - Keep the source readable enough that a human can edit it without rendering first.
 - Connect edges to concrete nodes whenever possible. Do not rely on edges targeting `subgraph` IDs or container labels for important relationships, because many Mermaid renderers draw those connectors as floating or visually detached.
 - When you need to show that a route table, policy, ACL, or shared control applies to a subnet group or container, anchor the edge to a real node inside that container or add a dedicated anchor node inside the container instead of connecting to the container itself.
@@ -265,6 +266,7 @@ Before finalizing a diagram, verify these points explicitly:
 - In draw.io, verify that decision labels and similar edge labels remain attached to the correct branch or connector location after readability fixes; do not move them away from the meaning they annotate just to avoid styling the label.
 - In Mermaid, verify that every referenced node ID exists exactly once and that edges render to the intended node after any rename or refactor.
 - In Mermaid, verify in a rendered preview that arrowheads visibly meet the intended node or anchor node rather than stopping short or appearing offset.
+- In Mermaid, verify that connector labels render with transparent backgrounds rather than filled plates or backfills.
 - In Mermaid, do a parser-safety pass over every node label and edge label before finalizing. Rewrite labels that contain embedded double quotes, escaped quotes, or code-like delimiter sequences when a simpler phrase preserves the meaning.
 - In Mermaid, when `mmdc` is available locally, require a successful render from the final source before treating the diagram as complete.
 - In Mermaid, if long or diagonal edges render poorly, shorten the route by re-laying out nodes, adding intermediate anchor nodes, or splitting the diagram instead of accepting a barely attached edge.

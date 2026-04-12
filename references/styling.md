@@ -59,7 +59,7 @@ Treat this distinction as a priority, not an optional polish pass.
 - Prefer `classDef` blocks or inline style directives only when the extra styling clearly improves readability.
 - Keep the number of classes small and tied to semantic roles.
 - Do not over-style if the host Markdown renderer has limited Mermaid support.
-- Keep Mermaid connector labels plain; do not apply Draw.io-style backfill behavior to Mermaid edge labels.
+- Keep Mermaid connector labels plain and background-transparent; do not apply Draw.io-style backfill behavior or filled label treatments to Mermaid edge labels.
 - When using subgraphs or styled grouping boxes, keep their border treatment quieter than the main arrows so readers can distinguish containment from flow.
 - If Mermaid styling limits make boxes and arrows feel too similar, reduce the number of visible group boundaries or move detail into multiple smaller diagrams.
 - In Mermaid, if two edges or an edge and a subgraph border visually merge, restructure the layout or use anchor nodes so each path stays legible.
