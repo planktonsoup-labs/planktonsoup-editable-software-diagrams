@@ -61,3 +61,12 @@ erDiagram
 - If Markdown already contains surrounding headings and prose, edit only the relevant fenced block.
 - Preserve existing node IDs when editing an existing Mermaid diagram unless they are actively harmful.
 - Avoid unsupported syntax guesses; choose a simpler Mermaid construct when uncertain.
+
+## Hosting In Markdown
+
+Prefer hosting Mermaid in Markdown when developers are likely to read the diagram alongside technical explanation.
+
+- Put a short heading immediately above the Mermaid block.
+- Add one or two sentences of scope or interpretation above or below the block.
+- Keep the block self-contained so it still makes sense when previewed alone.
+- When a standalone `.mmd` file is used, link it from the nearest `README.md` or design note if discoverability matters.

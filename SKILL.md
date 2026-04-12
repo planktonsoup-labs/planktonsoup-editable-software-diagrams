@@ -55,7 +55,7 @@ Apply this order:
 
 1. If the user names Mermaid or draw.io, use that format.
 2. If an existing target file already uses Mermaid or draw.io, preserve that format.
-3. If the output belongs inside Markdown docs, prefer Mermaid.
+3. If the output belongs inside Markdown docs or should be easy for developers to view in place, prefer Mermaid hosted in a `.md` file.
 4. If exact placement, grouping, swimlanes, or canvas composition matter, prefer draw.io.
 5. For most codebase and documentation diagrams, prefer Mermaid because it is lighter to diff and edit.
 
@@ -75,7 +75,7 @@ Use MCP tools when they are official, already configured, or clearly better than
 Default to Mermaid when:
 
 - The user asks for a flowchart, sequence diagram, state diagram, class diagram, ERD, dependency view, request flow, or simple architecture diagram.
-- The diagram should live inside Markdown documentation or a standalone `.mmd` file.
+- The diagram should live inside Markdown documentation, a design note, or a nearby README, or in a standalone `.mmd` file when separation is cleaner.
 - Fast iteration and readable text diffs matter more than exact positioning.
 
 Default to draw.io when:
@@ -142,12 +142,28 @@ Read [references/styling.md](references/styling.md) when applying a default visu
 
 ## Output Conventions
 
-- For a new Mermaid artifact, prefer `.mmd` unless the user asked for Markdown embedding.
-- For Markdown docs, wrap Mermaid in fenced code blocks using ` ```mermaid `.
+- For Mermaid that developers should view directly in repository docs, prefer embedding it in a nearby `.md` file.
+- Use standalone `.mmd` files when the diagram is reused across docs, is large enough to distract from prose, or already exists as `.mmd`.
+- For Markdown docs, wrap Mermaid in fenced code blocks using ` ```mermaid ` and keep a short heading or caption immediately above the block.
 - For draw.io, save with the `.drawio` extension.
 - When replacing an informal ASCII diagram or prose-only description, preserve the original meaning and add a short note only if the migration changes notation.
 - If the user asks for "a diagram" without naming a destination file, create or edit the most obvious documentation artifact instead of leaving the result only in chat.
 - When adding or renaming a persisted diagram in documentation, update the nearest relevant `README.md` or diagram index if the repository uses one.
+
+## Markdown Hosting
+
+When Mermaid is the chosen format, prefer one of these documentation patterns:
+
+- Add the diagram to the nearest feature `README.md` when it explains that feature directly.
+- Add the diagram to a focused design note such as `architecture.md`, `runtime-flow.md`, or `data-model.md` when the diagram needs more explanation.
+- Link to standalone `.mmd` files from Markdown when the same diagram is referenced from multiple places.
+
+For Markdown-hosted diagrams:
+
+- Add a concise heading and one or two lines of context above the diagram.
+- Keep one primary diagram per section.
+- If the file contains several diagrams, add a small index or table of contents near the top.
+- Prefer placing the Mermaid block close to the text it explains rather than creating a disconnected diagram dump.
 
 ## File Naming
 
