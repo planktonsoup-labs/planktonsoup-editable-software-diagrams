@@ -67,6 +67,10 @@ Prefer this pattern over freehand line placement because explicit `source` and `
 - Prefer connectors with explicit `source` and `target` IDs.
 - After editing, preview the file and verify arrowheads visibly land on the intended shape edges.
 - When a connector targets a broad container and renders poorly, connect it to a nearby concrete node or add a small anchor node to make the relationship unambiguous.
+- Set an explicit page or canvas background strategy for new diagrams so readability does not depend on dark-mode or light-mode editor defaults.
+- Allow transparent labels when they sit on that known page background or inside a filled shape with sufficient contrast.
+- When a label crosses connectors, mixed fills, or busy areas, use explicit label styling or a dedicated label box instead of relying on transparency.
+- In the dark diagrams.net editor, labels can fall back to black plates or black rectangles when they are under-specified. Treat that as a bug and correct it with a stable canvas background or explicit label styling.
 - Do not leave freestanding text labels with transparent backgrounds when they sit on the canvas or overlap other shapes or lines.
 - Prefer filled label boxes, note shapes, or explicit label background styling for edge labels and annotations so they remain readable in dark and light themes.
 - In the dark diagrams.net editor, edge labels without explicit styling can render as large black rectangles or black label plates. Treat that as a bug.

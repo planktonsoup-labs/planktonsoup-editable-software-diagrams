@@ -130,12 +130,15 @@ Start from [assets/mermaid-doc-template.md](assets/mermaid-doc-template.md) for 
 - Keep the XML manually editable; avoid noisy style churn unless a style change is part of the request.
 - Prefer connectors with explicit `source` and `target` shape IDs over loose geometry-only lines.
 - When a connector must land on a specific shape, use concrete endpoints or stable entry/exit anchoring instead of relying on approximate placement.
-- Do not rely on transparent label backgrounds for freestanding text, edge labels, or notes. Use explicit opaque or high-contrast label backgrounds, or dedicated label boxes, so text stays readable in both dark and light editors.
-- Treat edge label rendering in dark diagrams.net themes as a correctness concern, not cosmetic polish. The dark editor can draw large black rectangles behind unlabeled or under-specified edge text.
+- Set an explicit page or canvas background strategy for new draw.io diagrams so text readability does not depend on the editor theme alone.
+- Prefer transparent labels when they sit on that known canvas background or on a known filled shape and remain readable there.
+- Use explicit opaque label backgrounds or dedicated label boxes only when text sits over connectors, mixed fills, or otherwise busy surfaces.
+- Treat edge label rendering in dark diagrams.net themes as a correctness concern, not cosmetic polish. Avoid label treatments that fall back to theme-dependent black plates or black rectangles.
 - When an edge needs a text label, either:
-  - give the edge an explicit label style with a non-transparent `labelBackgroundColor`, readable `fontColor`, and sufficient spacing, or
+  - keep the label transparent only when it sits on a stable readable canvas or filled local surface,
+  - give the edge an explicit label style with `labelBackgroundColor`, readable `fontColor`, and sufficient spacing when the text crosses lines or busy areas, or
   - place the text in a small dedicated label vertex near the connector instead of relying on the edge's default label rendering.
-- Prefer dedicated label vertices over inline edge labels in dense diagrams, because they are easier to place, style, and verify across light and dark themes.
+- Prefer dedicated label vertices over inline edge labels in dense diagrams, but do not add opaque label plates by default when a stable canvas background preserves readability more cleanly.
 
 Start from [assets/blank.drawio](assets/blank.drawio) when creating a new draw.io file from scratch. Read [references/drawio.md](references/drawio.md) for the minimal structure and editing rules.
 
@@ -225,8 +228,8 @@ Before finalizing a diagram, verify these points explicitly:
 - If the diagram is crowded enough that verification is ambiguous, simplify it or split it into two focused diagrams.
 - In draw.io, verify that each changed edge has the intended `source` and `target` IDs and does not rely only on freehand coordinates.
 - In draw.io, check that routed connectors still attach correctly after moving grouped boxes, containers, or section boundaries.
-- In draw.io, verify that labels sitting on the canvas or on top of connectors have explicit readable backgrounds in both dark and light render modes.
-- In draw.io, verify that connector labels do not fall back to theme-default black label plates in the dark editor. If they do, add explicit edge label styling or replace them with dedicated label boxes.
+- In draw.io, verify that labels remain readable in both dark and light render modes, whether that readability comes from a stable page background, a filled local surface, or an explicit label background.
+- In draw.io, verify that connector labels do not fall back to theme-default black label plates in the dark editor. If they do, set a stable page background, add explicit edge label styling, or replace them with dedicated label boxes.
 - In Mermaid, verify that every referenced node ID exists exactly once and that edges render to the intended node after any rename or refactor.
 - In Mermaid, verify in a rendered preview that arrowheads visibly meet the intended node or anchor node rather than stopping short or appearing offset.
 - In Mermaid, if long or diagonal edges render poorly, shorten the route by re-laying out nodes, adding intermediate anchor nodes, or splitting the diagram instead of accepting a barely attached edge.
