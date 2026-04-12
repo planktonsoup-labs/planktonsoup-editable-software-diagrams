@@ -1,4 +1,4 @@
 interface:
   display_name: "Editable Software Diagrams"
   short_description: "Create Mermaid or draw.io software diagrams"
-  default_prompt: "Use $editable-software-diagrams to create or update an editable Mermaid or draw.io software diagram for this system."
+  default_prompt: "Use $planktonsoup-editable-software-diagrams to create or update an editable Mermaid or draw.io software diagram for this system."

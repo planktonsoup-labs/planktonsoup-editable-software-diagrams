@@ -1,10 +1,10 @@
-# editable-software-diagrams
+# planktonsoup-editable-software-diagrams
 
 A GitHub Copilot/agent skill for creating and updating software diagrams in human-readable, source-friendly formats.
 
 ## What this repo is
 
-This repository defines the `editable-software-diagrams` agent skill. It is optimized for:
+This repository defines the `planktonsoup-editable-software-diagrams` agent skill. It is optimized for:
 
 - Mermaid diagrams (`.mmd` or Markdown fenced code blocks)
 - draw.io diagrams (`.drawio`)
