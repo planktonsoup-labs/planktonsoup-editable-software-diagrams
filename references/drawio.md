@@ -67,3 +67,10 @@ Prefer this pattern over freehand line placement because explicit `source` and `
 - Prefer connectors with explicit `source` and `target` IDs.
 - After editing, preview the file and verify arrowheads visibly land on the intended shape edges.
 - When a connector targets a broad container and renders poorly, connect it to a nearby concrete node or add a small anchor node to make the relationship unambiguous.
+- Do not leave freestanding text labels with transparent backgrounds when they sit on the canvas or overlap other shapes or lines.
+- Prefer filled label boxes, note shapes, or explicit label background styling for edge labels and annotations so they remain readable in dark and light themes.
+- In the dark diagrams.net editor, edge labels without explicit styling can render as large black rectangles or black label plates. Treat that as a bug.
+- For edge labels, prefer one of these two patterns:
+  - Explicit edge label styling such as `labelBackgroundColor=#f8fafc;fontColor=#0f172a;spacing=4;`
+  - A separate small label vertex near the connector, with its own fill and stroke, when precise placement or theme-safe readability matters more than compact XML.
+- Prefer the separate label vertex pattern in dense diagrams, because it avoids theme-dependent edge-label rendering and gives more control over overlap.

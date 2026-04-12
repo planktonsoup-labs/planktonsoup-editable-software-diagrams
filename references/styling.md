@@ -30,6 +30,7 @@ Treat this distinction as a priority, not an optional polish pass.
 - Include a short subtitle, caption, or nearby context sentence explaining scope.
 - Prefer bold labels for major nodes and groups.
 - Reserve regular text for small annotations, examples, or code-like snippets.
+- For Draw.io freestanding labels, use explicit opaque or high-contrast backgrounds instead of relying on the editor canvas color.
 
 ## Connectors
 
@@ -67,3 +68,4 @@ Treat this distinction as a priority, not an optional polish pass.
 - Do not let dashed container borders visually compete with dashed optional arrows; if both are needed, differentiate them by color or stroke weight.
 - In complex Draw.io diagrams, use subtle fills and quieter boundaries for areas so connectors remain the strongest directional marks on the page.
 - In Draw.io, route connectors so parallel or crossing lines remain visually separable instead of sitting on top of each other.
+- In Draw.io, place labels inside readable filled shapes or give label text an explicit background treatment so the label survives both dark-mode and light-mode editing surfaces.

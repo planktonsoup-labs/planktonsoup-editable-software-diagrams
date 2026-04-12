@@ -130,6 +130,12 @@ Start from [assets/mermaid-doc-template.md](assets/mermaid-doc-template.md) for 
 - Keep the XML manually editable; avoid noisy style churn unless a style change is part of the request.
 - Prefer connectors with explicit `source` and `target` shape IDs over loose geometry-only lines.
 - When a connector must land on a specific shape, use concrete endpoints or stable entry/exit anchoring instead of relying on approximate placement.
+- Do not rely on transparent label backgrounds for freestanding text, edge labels, or notes. Use explicit opaque or high-contrast label backgrounds, or dedicated label boxes, so text stays readable in both dark and light editors.
+- Treat edge label rendering in dark diagrams.net themes as a correctness concern, not cosmetic polish. The dark editor can draw large black rectangles behind unlabeled or under-specified edge text.
+- When an edge needs a text label, either:
+  - give the edge an explicit label style with a non-transparent `labelBackgroundColor`, readable `fontColor`, and sufficient spacing, or
+  - place the text in a small dedicated label vertex near the connector instead of relying on the edge's default label rendering.
+- Prefer dedicated label vertices over inline edge labels in dense diagrams, because they are easier to place, style, and verify across light and dark themes.
 
 Start from [assets/blank.drawio](assets/blank.drawio) when creating a new draw.io file from scratch. Read [references/drawio.md](references/drawio.md) for the minimal structure and editing rules.
 
@@ -150,6 +156,7 @@ When the repository does not already enforce a conflicting diagram style, prefer
 - Use solid arrows for required flows and dashed arrows or borders for optional, pluggable, or extensible relationships.
 - Avoid giving arrows and area boundaries the same line weight, dash pattern, and color in dense diagrams.
 - Avoid routing multiple meaningful lines along the same visual trajectory when they could be mistaken for one line.
+- Ensure freestanding text labels remain readable regardless of editor theme by giving them explicit background treatment or placing them inside filled label shapes.
 - Keep page or canvas width moderate so the diagram fits comfortably in common documentation views.
 - If containers and connectors still read as the same texture after styling, reduce density or split the diagram rather than accepting the ambiguity.
 - If two connectors or a connector and a boundary overlap for a meaningful stretch, reroute, offset, or split the diagram instead of accepting the overlap.
@@ -218,6 +225,8 @@ Before finalizing a diagram, verify these points explicitly:
 - If the diagram is crowded enough that verification is ambiguous, simplify it or split it into two focused diagrams.
 - In draw.io, verify that each changed edge has the intended `source` and `target` IDs and does not rely only on freehand coordinates.
 - In draw.io, check that routed connectors still attach correctly after moving grouped boxes, containers, or section boundaries.
+- In draw.io, verify that labels sitting on the canvas or on top of connectors have explicit readable backgrounds in both dark and light render modes.
+- In draw.io, verify that connector labels do not fall back to theme-default black label plates in the dark editor. If they do, add explicit edge label styling or replace them with dedicated label boxes.
 - In Mermaid, verify that every referenced node ID exists exactly once and that edges render to the intended node after any rename or refactor.
 - In Mermaid, verify in a rendered preview that arrowheads visibly meet the intended node or anchor node rather than stopping short or appearing offset.
 - In Mermaid, if long or diagonal edges render poorly, shorten the route by re-laying out nodes, adding intermediate anchor nodes, or splitting the diagram instead of accepting a barely attached edge.
