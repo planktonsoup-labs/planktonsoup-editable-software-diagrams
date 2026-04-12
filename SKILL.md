@@ -142,13 +142,15 @@ When the repository does not already enforce a conflicting diagram style, prefer
 - Reserve color families for semantic roles rather than decorative variation.
 - Use lighter tinted containers or section backgrounds when grouping related areas.
 - Make containers, section boxes, and grouping outlines visually distinct from connectors.
-- Prefer container borders that are thicker, lighter, or differently colored than arrows so grouping structure does not read like another flow line.
+- Prioritize visual differentiation between containment and flow in dense diagrams, even over decorative consistency.
+- Prefer container borders that are thicker, lighter, quieter, or differently colored than arrows so grouping structure does not read like another flow line.
 - Add a legend whenever the diagram uses more than three semantic colors.
 - Give every diagram a clear title and a short subtitle or context line explaining what it shows.
 - Use bold labels for normal nodes and containers; use regular-weight text only for code-like snippets or secondary detail.
 - Use solid arrows for required flows and dashed arrows or borders for optional, pluggable, or extensible relationships.
 - Avoid giving arrows and area boundaries the same line weight, dash pattern, and color in dense diagrams.
 - Keep page or canvas width moderate so the diagram fits comfortably in common documentation views.
+- If containers and connectors still read as the same texture after styling, reduce density or split the diagram rather than accepting the ambiguity.
 
 Read [references/styling.md](references/styling.md) when applying a default visual language.
 
@@ -217,6 +219,7 @@ Before finalizing a diagram, verify these points explicitly:
 - In Mermaid, verify that every referenced node ID exists exactly once and that edges render to the intended node after any rename or refactor.
 - In Mermaid, verify in a rendered preview that arrowheads visibly meet the intended node or anchor node rather than stopping short or appearing offset.
 - In Mermaid, if long or diagonal edges render poorly, shorten the route by re-laying out nodes, adding intermediate anchor nodes, or splitting the diagram instead of accepting a barely attached edge.
+- In dense diagrams, verify that containers are instantly distinguishable from connectors by stroke treatment, color, or visual weight; if not, restyle or simplify the diagram.
 - If a preview reveals a visually detached connector, mis-anchored label, or ambiguous target, fix it before considering the diagram complete.
 - For Mermaid, prefer a render check in a Mermaid-compatible preview when available; otherwise, do a manual source review that confirms each referenced edge endpoint is a real node ID declared in the file.
 
