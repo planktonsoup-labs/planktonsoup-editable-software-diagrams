@@ -149,8 +149,10 @@ When the repository does not already enforce a conflicting diagram style, prefer
 - Use bold labels for normal nodes and containers; use regular-weight text only for code-like snippets or secondary detail.
 - Use solid arrows for required flows and dashed arrows or borders for optional, pluggable, or extensible relationships.
 - Avoid giving arrows and area boundaries the same line weight, dash pattern, and color in dense diagrams.
+- Avoid routing multiple meaningful lines along the same visual trajectory when they could be mistaken for one line.
 - Keep page or canvas width moderate so the diagram fits comfortably in common documentation views.
 - If containers and connectors still read as the same texture after styling, reduce density or split the diagram rather than accepting the ambiguity.
+- If two connectors or a connector and a boundary overlap for a meaningful stretch, reroute, offset, or split the diagram instead of accepting the overlap.
 
 Read [references/styling.md](references/styling.md) when applying a default visual language.
 
@@ -220,6 +222,7 @@ Before finalizing a diagram, verify these points explicitly:
 - In Mermaid, verify in a rendered preview that arrowheads visibly meet the intended node or anchor node rather than stopping short or appearing offset.
 - In Mermaid, if long or diagonal edges render poorly, shorten the route by re-laying out nodes, adding intermediate anchor nodes, or splitting the diagram instead of accepting a barely attached edge.
 - In dense diagrams, verify that containers are instantly distinguishable from connectors by stroke treatment, color, or visual weight; if not, restyle or simplify the diagram.
+- Verify that no two meaningful lines overlap on the same trajectory long enough to look like a single line; reroute or separate them if they do.
 - If a preview reveals a visually detached connector, mis-anchored label, or ambiguous target, fix it before considering the diagram complete.
 - For Mermaid, prefer a render check in a Mermaid-compatible preview when available; otherwise, do a manual source review that confirms each referenced edge endpoint is a real node ID declared in the file.
 

@@ -39,6 +39,7 @@ Treat this distinction as a priority, not an optional polish pass.
 - Keep connector color and stroke treatment distinct from container or section outlines.
 - In dense diagrams, prefer darker or more directional arrow styling and quieter container borders so flows remain legible.
 - If dense diagrams still look like a field of similar lines, simplify the structure or split the diagram instead of trying to solve it with more lines.
+- Do not let separate connectors ride the same visual path for long stretches when that makes them read as one line.
 
 ## Layout
 
@@ -46,6 +47,7 @@ Treat this distinction as a priority, not an optional polish pass.
 - Favor one dominant flow direction.
 - Leave enough whitespace that later edits do not force immediate re-layout.
 - Add a legend when more than three semantic colors are in play.
+- Offset, reroute, or shorten lines that would otherwise overlap or stack on the same trajectory.
 
 ## Applying In Mermaid
 
@@ -54,6 +56,7 @@ Treat this distinction as a priority, not an optional polish pass.
 - Do not over-style if the host Markdown renderer has limited Mermaid support.
 - When using subgraphs or styled grouping boxes, keep their border treatment quieter than the main arrows so readers can distinguish containment from flow.
 - If Mermaid styling limits make boxes and arrows feel too similar, reduce the number of visible group boundaries or move detail into multiple smaller diagrams.
+- In Mermaid, if two edges or an edge and a subgraph border visually merge, restructure the layout or use anchor nodes so each path stays legible.
 
 ## Applying In Draw.io
 
@@ -63,3 +66,4 @@ Treat this distinction as a priority, not an optional polish pass.
 - Give container outlines a different stroke color, opacity, or weight than connectors.
 - Do not let dashed container borders visually compete with dashed optional arrows; if both are needed, differentiate them by color or stroke weight.
 - In complex Draw.io diagrams, use subtle fills and quieter boundaries for areas so connectors remain the strongest directional marks on the page.
+- In Draw.io, route connectors so parallel or crossing lines remain visually separable instead of sitting on top of each other.
