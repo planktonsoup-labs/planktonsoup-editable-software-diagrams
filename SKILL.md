@@ -141,10 +141,13 @@ When the repository does not already enforce a conflicting diagram style, prefer
 - Use darker strokes than fills so shapes remain distinct.
 - Reserve color families for semantic roles rather than decorative variation.
 - Use lighter tinted containers or section backgrounds when grouping related areas.
+- Make containers, section boxes, and grouping outlines visually distinct from connectors.
+- Prefer container borders that are thicker, lighter, or differently colored than arrows so grouping structure does not read like another flow line.
 - Add a legend whenever the diagram uses more than three semantic colors.
 - Give every diagram a clear title and a short subtitle or context line explaining what it shows.
 - Use bold labels for normal nodes and containers; use regular-weight text only for code-like snippets or secondary detail.
 - Use solid arrows for required flows and dashed arrows or borders for optional, pluggable, or extensible relationships.
+- Avoid giving arrows and area boundaries the same line weight, dash pattern, and color in dense diagrams.
 - Keep page or canvas width moderate so the diagram fits comfortably in common documentation views.
 
 Read [references/styling.md](references/styling.md) when applying a default visual language.
