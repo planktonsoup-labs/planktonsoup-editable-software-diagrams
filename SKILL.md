@@ -150,6 +150,16 @@ Read [references/styling.md](references/styling.md) when applying a default visu
 - If the user asks for "a diagram" without naming a destination file, create or edit the most obvious documentation artifact instead of leaving the result only in chat.
 - When adding or renaming a persisted diagram in documentation, update the nearest relevant `README.md` or diagram index if the repository uses one.
 
+## Diagram Locations
+
+Choose the storage location based on the repository's existing documentation layout.
+
+- If the project already has a dedicated diagram directory such as `diagrams/`, `docs/diagrams/`, or a feature-local diagrams folder, prefer placing new persisted diagrams there.
+- If Mermaid is embedded directly in a documentation page, keep it in that `.md` file even when a diagrams folder exists.
+- If a standalone diagram explains multiple documents or features, prefer the shared diagrams directory and link to it from nearby docs.
+- Preserve existing naming and placement conventions instead of creating a parallel diagram structure.
+- When a diagrams folder exists, update its nearest `README.md`, index page, or linking document so developers can discover the new artifact.
+
 ## Markdown Hosting
 
 When Mermaid is the chosen format, prefer one of these documentation patterns:
@@ -180,6 +190,7 @@ Use online or app-based viewers as optional design-time aids, not as the long-te
 
 - Use descriptive names such as `auth-sequence.mmd`, `order-lifecycle.mmd`, or `deployment.drawio`.
 - When adding a new doc-adjacent diagram, keep the name aligned with the nearby feature or document section.
+- When using a dedicated diagrams folder, keep filenames specific enough to stand on their own outside the original doc context.
 - Avoid generic names like `diagram1.drawio` unless the repository already uses that convention.
 
 ## Request Shaping
