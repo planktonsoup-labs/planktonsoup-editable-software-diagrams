@@ -30,9 +30,11 @@ Treat this distinction as a priority, not an optional polish pass.
 - Include a short subtitle, caption, or nearby context sentence explaining scope.
 - Prefer bold labels for major nodes and groups.
 - Reserve regular text for small annotations, examples, or code-like snippets.
-- For Draw.io, establish an explicit page background color first, then allow transparent labels where that known surface keeps them readable.
+- For Draw.io, establish an explicit page background color first.
 - When Draw.io labels should remain transparent, require `Background Style = None` so transparency resolves against the page rendering path rather than the editor canvas layer.
-- Use explicit label backgrounds only when labels sit on busy, mixed, or line-heavy surfaces.
+- When Draw.io labels sit on busy, mixed, or line-heavy surfaces, do not leave them fully transparent.
+- In those cases, keep the label at the location it is meant to annotate and use a dedicated label vertex with a light neutral background at roughly `50%` `fillOpacity` and `Background Style = None` so readability improves without completely hiding the page or shapes behind it.
+- For Draw.io edge labels, branch labels, and connector-adjacent annotations, use that dedicated semi-opaque label-vertex treatment as a requirement.
 
 ## Connectors
 
@@ -70,4 +72,4 @@ Treat this distinction as a priority, not an optional polish pass.
 - Do not let dashed container borders visually compete with dashed optional arrows; if both are needed, differentiate them by color or stroke weight.
 - In complex Draw.io diagrams, use subtle fills and quieter boundaries for areas so connectors remain the strongest directional marks on the page.
 - In Draw.io, route connectors so parallel or crossing lines remain visually separable instead of sitting on top of each other.
-- In Draw.io, use transparent labels on the explicit page background by default, and fall back to label fills only for busy local surfaces.
+- In Draw.io, reserve transparent labels for quiet non-connector text only, and use dedicated translucent neutral label vertices for edge labels and connector-adjacent annotations.

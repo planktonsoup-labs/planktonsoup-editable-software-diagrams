@@ -70,14 +70,17 @@ Prefer this pattern over freehand line placement because explicit `source` and `
 - After editing, preview the file and verify arrowheads visibly land on the intended shape edges.
 - When a connector targets a broad container and renders poorly, connect it to a nearby concrete node or add a small anchor node to make the relationship unambiguous.
 - Always set an explicit page background color for new diagrams so readability does not depend on dark-mode or light-mode editor defaults.
-- Allow transparent labels when they sit on that known page background or inside a filled shape with sufficient contrast.
+- Allow transparent labels only for non-connector text that sits on that known page background or inside a filled shape with sufficient contrast.
 - When transparent labels are used, set `Background Style = None` so draw.io uses the simpler SVG/text fallback path instead of the theme-dependent HTML label layer.
 - This is a source-level rendering rule, not just a styling preference: `Background Style = None` changes the label rendering path so transparent text resolves against the page instead of the editor canvas.
-- When hand-editing XML for transparent edge labels, also set `labelBackgroundColor=none;` on the edge style so the label reveals the page background or local filled surface instead of a theme-colored plate.
-- When a label crosses connectors, mixed fills, or busy areas, use explicit label styling or a dedicated label box instead of relying on transparency alone.
+- When hand-editing XML for transparent non-connector labels, set `labelBackgroundColor=none;` when needed so the label reveals the page background or local filled surface instead of a theme-colored plate.
+- When a label crosses connectors, mixed fills, or busy areas, do not rely on transparency alone.
+- In those cases, keep the label near the connector segment or branch it explains and use a dedicated label vertex with a light neutral fill at roughly `50%` `fillOpacity` so the page and nearby constructs still show through instead of being fully blocked.
+- For edge labels, branch labels such as `Yes` and `No`, and other connector-adjacent annotations, that dedicated semi-opaque label-vertex treatment is required even when the underlying page is otherwise readable.
+- Do not assume `labelBackgroundColor` with a nominal background-opacity setting will render translucently for connector labels. In practice, use a separate label vertex with explicit `fillOpacity=50`, keep `opacity=100` and `textOpacity=100`, require `Background Style = None`, and remove the border unless it carries meaning.
 - In the dark diagrams.net editor, under-specified labels can fall back to black plates, black rectangles, or canvas-punch-through transparency. Treat that as a bug and correct it by setting the page background color first, then using `Background Style = None`, then adjusting label styling only if needed.
 - For edge labels, prefer one of these patterns:
-  - Transparent or minimally styled text on a stable readable page background or filled local surface, with `Background Style = None` and `labelBackgroundColor=none;` in source-edited XML
-  - Explicit edge label styling, including background only when needed, when the text crosses lines or busy areas
-  - A separate small label vertex near the connector, with its own fill and stroke, when precise placement or theme-safe readability matters more than compact XML
-- Prefer the separate label vertex pattern in dense diagrams, but do not add opaque label boxes everywhere when a stable canvas background preserves readability with less visual clutter.
+-  - A separate small label vertex near the connector, with `fillOpacity=50`, readable text color, `Background Style = None`, and little or no visible border
+-  - Inline edge label rendering only when preview verification confirms the label background is actually translucent and not merely light-colored or fully opaque
+- For branch labels such as `Yes`, `No`, success/failure, or protocol annotations, keep the label anchored at the branch it describes and add the local semi-opaque background there instead of moving the label to a quieter but less meaningful location.
+- In dense diagrams, prefer the separate label vertex pattern, but do not add fully opaque label boxes everywhere when a stable canvas background preserves readability with less visual clutter.
