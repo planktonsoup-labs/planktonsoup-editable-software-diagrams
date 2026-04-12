@@ -44,6 +44,8 @@ Typical connector:
 </mxCell>
 ```
 
+Prefer this pattern over freehand line placement because explicit `source` and `target` IDs survive later layout edits more reliably.
+
 ## Layout Heuristics
 
 - Place primary flow left-to-right or top-to-bottom consistently.
@@ -62,3 +64,6 @@ Typical connector:
 - Prefer one page unless the user explicitly asks for more.
 - Preserve the existing page ID and root structure when editing an existing file.
 - Prefer hand-editable XML over tool-generated churn.
+- Prefer connectors with explicit `source` and `target` IDs.
+- After editing, preview the file and verify arrowheads visibly land on the intended shape edges.
+- When a connector targets a broad container and renders poorly, connect it to a nearby concrete node or add a small anchor node to make the relationship unambiguous.

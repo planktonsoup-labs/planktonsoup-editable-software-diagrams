@@ -48,7 +48,8 @@ Do not switch to PlantUML, Excalidraw, SVG, PNG, Visio, or image-generation work
 3. Reuse the existing format when editing an existing diagram unless the user explicitly asks to migrate it.
 4. If no format is specified, choose the simplest editable format that preserves the intent.
 5. Produce the diagram source directly; do not describe a diagram without creating the file content unless the user asked for concepts only.
-6. Keep the output diff-friendly and avoid generated noise.
+6. Verify the rendered structure, not just the text syntax, before finalizing.
+7. Keep the output diff-friendly and avoid generated noise.
 
 ## Decision Rules
 
@@ -111,6 +112,10 @@ If both are plausible and the user did not decide, prefer Mermaid for simple str
 - When the request maps to a Mermaid diagram family, use that family directly instead of forcing everything into a flowchart.
 - Prefer explicit edge labels when transitions or data movement would otherwise be ambiguous.
 - Keep the source readable enough that a human can edit it without rendering first.
+- Connect edges to concrete nodes whenever possible. Do not rely on edges targeting `subgraph` IDs or container labels for important relationships, because many Mermaid renderers draw those connectors as floating or visually detached.
+- When you need to show that a route table, policy, ACL, or shared control applies to a subnet group or container, anchor the edge to a real node inside that container or add a dedicated anchor node inside the container instead of connecting to the container itself.
+- Prefer fewer, shorter cross-diagram connectors when labels or arrows start landing far from their intended shapes. Split crowded diagrams or introduce local anchor nodes instead of stretching one edge across multiple containers.
+- Treat Mermaid edges that appear to stop short of the target, miss the target visually, or terminate ambiguously as correctness bugs that require a layout or structure change.
 
 Read [references/mermaid.md](references/mermaid.md) when choosing diagram types or syntax patterns.
 Start from [assets/mermaid-doc-template.md](assets/mermaid-doc-template.md) for new Markdown-hosted diagrams and [assets/standalone-diagram-template.mmd](assets/standalone-diagram-template.mmd) for new standalone Mermaid files.
@@ -123,6 +128,8 @@ Start from [assets/mermaid-doc-template.md](assets/mermaid-doc-template.md) for 
 - Use simple built-in shapes and edge styles before introducing more complex styling.
 - Keep labels in the XML as plain readable text; avoid unnecessary metadata.
 - Keep the XML manually editable; avoid noisy style churn unless a style change is part of the request.
+- Prefer connectors with explicit `source` and `target` shape IDs over loose geometry-only lines.
+- When a connector must land on a specific shape, use concrete endpoints or stable entry/exit anchoring instead of relying on approximate placement.
 
 Start from [assets/blank.drawio](assets/blank.drawio) when creating a new draw.io file from scratch. Read [references/drawio.md](references/drawio.md) for the minimal structure and editing rules.
 
@@ -189,6 +196,26 @@ Use online or app-based viewers as optional design-time aids, not as the long-te
 - Do not make repository documentation depend on external viewer links unless the user explicitly asks for them.
 - Prefer repository-native viewing first: Markdown-hosted Mermaid for easy reading in docs, and in-repo `.drawio` files for editable canvas diagrams.
 - Use preview tools to validate or refine the diagram, then preserve the final artifact in a diffable form inside the repo.
+- For Mermaid, treat preview inspection as mandatory whenever long edges, subgraphs, nested groups, or dense routing could make an endpoint visually unclear.
+- For draw.io, treat preview inspection as mandatory whenever connectors, containers, or long routed edges are added or changed.
+
+## Verification Checklist
+
+Before finalizing a diagram, verify these points explicitly:
+
+- Every edge starts and ends on an actual rendered node or shape, not just a container intent.
+- Arrowheads visibly touch their intended targets in the preview; if they do not, re-anchor the edge to a concrete node or introduce a local anchor node.
+- Subgraph or container relationships are represented with nearby anchor nodes, labels, or notes when direct container-to-container edges render poorly.
+- Long dashed control-flow edges do not cut across the page so far that labels drift away from the target they describe.
+- Multiline labels remain readable and do not push connector endpoints into awkward positions.
+- If the diagram is crowded enough that verification is ambiguous, simplify it or split it into two focused diagrams.
+- In draw.io, verify that each changed edge has the intended `source` and `target` IDs and does not rely only on freehand coordinates.
+- In draw.io, check that routed connectors still attach correctly after moving grouped boxes, containers, or section boundaries.
+- In Mermaid, verify that every referenced node ID exists exactly once and that edges render to the intended node after any rename or refactor.
+- In Mermaid, verify in a rendered preview that arrowheads visibly meet the intended node or anchor node rather than stopping short or appearing offset.
+- In Mermaid, if long or diagonal edges render poorly, shorten the route by re-laying out nodes, adding intermediate anchor nodes, or splitting the diagram instead of accepting a barely attached edge.
+- If a preview reveals a visually detached connector, mis-anchored label, or ambiguous target, fix it before considering the diagram complete.
+- For Mermaid, prefer a render check in a Mermaid-compatible preview when available; otherwise, do a manual source review that confirms each referenced edge endpoint is a real node ID declared in the file.
 
 ## File Naming
 
@@ -227,3 +254,4 @@ Unless the user asks for a different level of abstraction:
 - If a diagram would become crowded, split it into two focused diagrams instead of cramming everything into one.
 - If MCP-derived facts conflict with local assumptions, trust the authoritative source and reflect that in the diagram.
 - Avoid decorative complexity. The artifact should be easier to maintain after the edit than before it.
+- Treat visually detached arrows, labels, or connectors as correctness bugs, not cosmetic polish items.

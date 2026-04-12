@@ -61,6 +61,9 @@ erDiagram
 - If Markdown already contains surrounding headings and prose, edit only the relevant fenced block.
 - Preserve existing node IDs when editing an existing Mermaid diagram unless they are actively harmful.
 - Avoid unsupported syntax guesses; choose a simpler Mermaid construct when uncertain.
+- Preview the rendered diagram when possible and treat visually detached or ambiguous edges as correctness bugs.
+- When a long edge renders as if it misses its target, shorten the route by re-laying out nodes, adding an intermediate anchor node, or splitting the diagram.
+- Prefer nearby concrete nodes or dedicated anchor nodes over distant container-like targets when Mermaid layout makes the endpoint relationship hard to read.
 
 ## Hosting In Markdown
 
