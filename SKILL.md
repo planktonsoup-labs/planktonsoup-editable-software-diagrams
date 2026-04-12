@@ -1,0 +1,187 @@
+---
+name: editable-software-diagrams
+description: Create or update software-development diagrams in Mermaid (`.mmd` or Markdown code fences) or draw.io (`.drawio`) format. Use when Codex needs human-readable, diffable diagrams for system architecture, service boundaries, runtime flows, sequence diagrams, ERDs, deployment layouts, state machines, dependency maps, integration boundaries, or technical documentation, and the output should remain easy for humans and agents to review and edit later. Stay focused on Mermaid and draw.io only unless the user explicitly asks for another format.
+---
+
+# Editable Diagrams
+
+## Overview
+
+Create software-development diagrams in text-first formats that work well in agentic workflows. Prefer Mermaid for concise source-controlled technical diagrams and prefer draw.io when architecture or deployment views need manual positioning, richer layout control, or mixed visual elements.
+
+## Scope
+
+Use this skill only for creating or editing:
+
+- Mermaid source in standalone `.mmd` files
+- Mermaid inside Markdown fenced blocks
+- draw.io / diagrams.net `.drawio` XML files
+
+Focus on technical documentation artifacts such as:
+
+- system and service architecture diagrams
+- request, event, and data flows
+- sequence diagrams for runtime interactions
+- deployment and infrastructure topology views
+- entity-relationship and domain model diagrams
+- state diagrams for business or runtime lifecycles
+- integration maps, module boundaries, and dependency views
+
+Do not switch to PlantUML, Excalidraw, SVG, PNG, Visio, or image-generation workflows unless the user explicitly overrides this skill's scope.
+
+## Typical Requests
+
+- "Create a Mermaid sequence diagram for our login flow."
+- "Add Redis to this existing draw.io architecture diagram."
+- "Turn this ASCII workflow into a Mermaid flowchart in the README."
+- "Document the order lifecycle as a state diagram."
+- "Make a draw.io deployment diagram from this Kubernetes manifest."
+- "Show how the web app, API, queue, and worker interact."
+- "Create an ERD for these tables."
+- "Add the new payment provider boundary to the system context diagram."
+
+## Workflow
+
+1. Inspect the request and any existing diagram files before choosing a format.
+2. Use official or high-signal MCP tools when they materially improve accuracy or save time gathering diagram inputs.
+3. Reuse the existing format when editing an existing diagram unless the user explicitly asks to migrate it.
+4. If no format is specified, choose the simplest editable format that preserves the intent.
+5. Produce the diagram source directly; do not describe a diagram without creating the file content unless the user asked for concepts only.
+6. Keep the output diff-friendly and avoid generated noise.
+
+## Decision Rules
+
+Apply this order:
+
+1. If the user names Mermaid or draw.io, use that format.
+2. If an existing target file already uses Mermaid or draw.io, preserve that format.
+3. If the output belongs inside Markdown docs, prefer Mermaid.
+4. If exact placement, grouping, swimlanes, or canvas composition matter, prefer draw.io.
+5. For most codebase and documentation diagrams, prefer Mermaid because it is lighter to diff and edit.
+
+## Prefer MCP When Useful
+
+Use MCP tools when they are official, already configured, or clearly better than ad hoc inspection.
+
+- Prefer repository or GitHub MCP tools to inspect PRs, changed files, issue context, and remote source artifacts before diagramming a system or change.
+- Prefer product-specific official MCP tools when diagramming external systems, APIs, schemas, or platform resources and those tools expose authoritative data.
+- Prefer MCP or repository search over guesswork when the diagram depends on actual code structure, service names, schema shape, or deployed resources.
+- Prefer local shell/file inspection when the needed context is already in the workspace and MCP would add overhead without improving accuracy.
+- Do not invent MCP dependencies in the skill metadata unless the skill actually requires them to function.
+- Keep the skill format-agnostic: MCP tools help gather inputs, but the output should still be Mermaid or draw.io source.
+
+## Choose The Format
+
+Default to Mermaid when:
+
+- The user asks for a flowchart, sequence diagram, state diagram, class diagram, ERD, dependency view, request flow, or simple architecture diagram.
+- The diagram should live inside Markdown documentation or a standalone `.mmd` file.
+- Fast iteration and readable text diffs matter more than exact positioning.
+
+Default to draw.io when:
+
+- The user asks for a `.drawio` file or mentions draw.io, diagrams.net, or XML.
+- The diagram needs manual placement, freeform canvas layout, swimlanes, grouped containers, infrastructure zones, or mixed annotations that would be awkward in Mermaid.
+- The repository already stores adjacent diagrams as `.drawio`.
+
+If both are plausible and the user did not decide, prefer Mermaid for simple structured diagrams and draw.io for layout-heavy diagrams.
+
+## Migration Rules
+
+- Migrate Mermaid to draw.io only when the user asks for richer manual layout or a `.drawio` artifact.
+- Migrate draw.io to Mermaid only when the diagram is structurally simple enough to preserve meaning without hand-tuned placement.
+- When migrating, preserve labels, grouping intent, edge meaning, and file-local terminology.
+- Do not silently migrate formats as part of an unrelated edit.
+
+## Edit Existing Diagrams
+
+- Read the existing file first and preserve the current format.
+- Make the smallest coherent change that satisfies the request.
+- Preserve labels, IDs, and layout intent unless the request requires a broader rework.
+- For draw.io, keep files uncompressed when possible so diffs stay readable.
+- For Mermaid embedded in Markdown, edit only the targeted fenced block unless the surrounding prose also needs updates.
+
+## Mermaid Rules
+
+- Emit valid Mermaid syntax with a single top-level diagram declaration.
+- Use short, stable node IDs and human-readable labels.
+- Favor vertical or left-to-right layouts only when they improve readability.
+- Keep labels concise; move long explanations outside the diagram when possible.
+- When the request maps to a Mermaid diagram family, use that family directly instead of forcing everything into a flowchart.
+- Prefer explicit edge labels when transitions or data movement would otherwise be ambiguous.
+- Keep the source readable enough that a human can edit it without rendering first.
+
+Read [references/mermaid.md](references/mermaid.md) when choosing diagram types or syntax patterns.
+
+## Draw.io Rules
+
+- Emit valid `.drawio` XML with `compressed="false"` unless the file already uses compression.
+- Prefer a single page unless the user asks for multiple pages.
+- Use a consistent coordinate grid and leave reasonable spacing between shapes.
+- Use simple built-in shapes and edge styles before introducing more complex styling.
+- Keep labels in the XML as plain readable text; avoid unnecessary metadata.
+- Keep the XML manually editable; avoid noisy style churn unless a style change is part of the request.
+
+Start from [assets/blank.drawio](assets/blank.drawio) when creating a new draw.io file from scratch. Read [references/drawio.md](references/drawio.md) for the minimal structure and editing rules.
+
+## Readability And Styling
+
+When the repository does not already enforce a conflicting diagram style, prefer a high-contrast presentation that remains readable in editors, rendered views, and diffs.
+
+- Use dark, saturated fills with white text for primary nodes.
+- Use darker strokes than fills so shapes remain distinct.
+- Reserve color families for semantic roles rather than decorative variation.
+- Use lighter tinted containers or section backgrounds when grouping related areas.
+- Add a legend whenever the diagram uses more than three semantic colors.
+- Give every diagram a clear title and a short subtitle or context line explaining what it shows.
+- Use bold labels for normal nodes and containers; use regular-weight text only for code-like snippets or secondary detail.
+- Use solid arrows for required flows and dashed arrows or borders for optional, pluggable, or extensible relationships.
+- Keep page or canvas width moderate so the diagram fits comfortably in common documentation views.
+
+Read [references/styling.md](references/styling.md) when applying a default visual language.
+
+## Output Conventions
+
+- For a new Mermaid artifact, prefer `.mmd` unless the user asked for Markdown embedding.
+- For Markdown docs, wrap Mermaid in fenced code blocks using ` ```mermaid `.
+- For draw.io, save with the `.drawio` extension.
+- When replacing an informal ASCII diagram or prose-only description, preserve the original meaning and add a short note only if the migration changes notation.
+- If the user asks for "a diagram" without naming a destination file, create or edit the most obvious documentation artifact instead of leaving the result only in chat.
+- When adding or renaming a persisted diagram in documentation, update the nearest relevant `README.md` or diagram index if the repository uses one.
+
+## File Naming
+
+- Use descriptive names such as `auth-sequence.mmd`, `order-lifecycle.mmd`, or `deployment.drawio`.
+- When adding a new doc-adjacent diagram, keep the name aligned with the nearby feature or document section.
+- Avoid generic names like `diagram1.drawio` unless the repository already uses that convention.
+
+## Request Shaping
+
+If the request is underspecified, infer the smallest useful diagram:
+
+- For "architecture diagram," show the main runtime components and their edges.
+- For "workflow," show the major states and decisions, not every implementation detail.
+- For "data model," show entities and cardinality, not every column unless asked.
+- For "sequence diagram," show the main actors, messages, and important responses or failures.
+- For "deployment diagram," show the main runtime units, network or trust boundaries, and key dependencies.
+- For "integration diagram," show internal vs external systems and the contracts or flows between them.
+
+## Software Diagram Defaults
+
+Unless the user asks for a different level of abstraction:
+
+- Prefer naming components after real code modules, services, jobs, tables, topics, or APIs.
+- Show system boundaries explicitly when crossing repositories, services, clouds, or trust zones.
+- Distinguish internal components from external providers.
+- Show only the level of detail needed for the current engineering question.
+- Favor one of these common abstraction levels: system context, container/service view, runtime interaction, deployment topology, or data model.
+
+## Quality Bar
+
+- Make the diagram answer the user's actual question instead of drawing every possible component.
+- Optimize for readability at a glance.
+- Keep terminology consistent with surrounding code and docs.
+- Make the abstraction level explicit and avoid mixing implementation detail with high-level architecture unless the request needs both.
+- If a diagram would become crowded, split it into two focused diagrams instead of cramming everything into one.
+- If MCP-derived facts conflict with local assumptions, trust the authoritative source and reflect that in the diagram.
+- Avoid decorative complexity. The artifact should be easier to maintain after the edit than before it.

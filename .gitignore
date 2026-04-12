@@ -1,0 +1,62 @@
+# agentskills.io / agent workspace exclusions
+.agent/
+.agentskills/
+.agent-cache/
+.agent-data/
+.agent-state/
+.skill/
+.skill-cache/
+.skill-data/
+*.agent
+*.skill
+*.agentlog
+*.skilllog
+
+# Common OS-level exclusions
+
+# macOS
+.DS_Store
+.DS_Store?
+.AppleDouble/
+.LSOverride
+Icon?
+._*
+.Spotlight-V100/
+.Trashes/
+.DocumentRevisions-V100/
+.fseventsd/
+.metadata_never_index
+.AppleDB/
+.AppleDesktop/
+Network Trash Folder/
+Temporary Items/
+.apdisk
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+*~
+.nfs*
+.directory
+.Trash-*
+.fuse_hidden*
+
+# Editor and temp files
+*.swp
+*.swo
+*.swn
+*~
+.*.swp
+.*.swo
+.*.swn
+.~lock.*
+*.tmp
+*.temp
+*.bak
+*.orig
+*.rej
