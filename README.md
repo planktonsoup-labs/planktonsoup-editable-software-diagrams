@@ -16,6 +16,7 @@ The skill is intended for architecture, flow, state, ERD, deployment, and integr
 - `SKILL.md` — Skill metadata, scope, and authoring guidance.
 - `agents/openai.yaml` — Agent runtime configuration.
 - `assets/blank.drawio` — Starter template for new [draw.io][drawio] diagrams.
+- `assets/mermaid-doc-template.md` — Starter template for Mermaid diagrams hosted in Markdown.
 - `references/` — Style and format guidance for [Mermaid][mermaid] and [draw.io][drawio].
 
 ## Usage

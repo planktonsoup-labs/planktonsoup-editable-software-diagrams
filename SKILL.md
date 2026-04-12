@@ -124,6 +124,7 @@ If both are plausible and the user did not decide, prefer Mermaid for simple str
 - Prefer explicit edge labels when transitions or data movement would otherwise be ambiguous.
 - Keep Mermaid labels parser-safe. Prefer plain words and short phrases over code-like snippets with embedded quotes, escaped string literals, or heavy punctuation inside node or edge labels.
 - When a label needs to mention example values or method calls, rewrite it into Mermaid-safe prose such as `Add apple` instead of `Add("apple")`, or move the exact literal example into surrounding Markdown.
+- Do not add Draw.io-style label backfills, label plates, or semi-opaque label boxes to Mermaid connector labels. Keep Mermaid edge labels plain unless Mermaid's own styling is specifically needed for semantic meaning.
 - Keep the source readable enough that a human can edit it without rendering first.
 - Connect edges to concrete nodes whenever possible. Do not rely on edges targeting `subgraph` IDs or container labels for important relationships, because many Mermaid renderers draw those connectors as floating or visually detached.
 - When you need to show that a route table, policy, ACL, or shared control applies to a subnet group or container, anchor the edge to a real node inside that container or add a dedicated anchor node inside the container instead of connecting to the container itself.
@@ -131,7 +132,7 @@ If both are plausible and the user did not decide, prefer Mermaid for simple str
 - Treat Mermaid edges that appear to stop short of the target, miss the target visually, or terminate ambiguously as correctness bugs that require a layout or structure change.
 
 Read [references/mermaid.md](references/mermaid.md) when choosing diagram types or syntax patterns.
-Start from [assets/mermaid-doc-template.md](assets/mermaid-doc-template.md) for new Markdown-hosted diagrams and [assets/standalone-diagram-template.mmd](assets/standalone-diagram-template.mmd) for new standalone Mermaid files.
+Start from [assets/mermaid-doc-template.md](assets/mermaid-doc-template.md) for new Markdown-hosted diagrams.
 
 ## Draw.io Rules
 
@@ -202,7 +203,7 @@ Choose the storage location based on the repository's existing documentation lay
 - If a standalone diagram explains multiple documents or features, prefer the shared diagrams directory and link to it from nearby docs.
 - Preserve existing naming and placement conventions instead of creating a parallel diagram structure.
 - When a diagrams folder exists, update its nearest `README.md`, index page, or linking document so developers can discover the new artifact.
-- Prefer [assets/standalone-diagram-template.mmd](assets/standalone-diagram-template.mmd) when creating a new reusable Mermaid file in a shared diagrams folder.
+- For new reusable standalone Mermaid files, follow the same heading, context, and naming patterns used by the Markdown template without inventing extra boilerplate.
 
 ## Markdown Hosting
 
@@ -225,8 +226,12 @@ For Markdown-hosted diagrams:
 Use online or app-based viewers as optional design-time aids, not as the long-term source of truth.
 
 - Prefer local CLI validation first when a suitable tool is installed.
-- For Mermaid, check for `mmdc` and use it to render the diagram from the final source or from a temporary extracted Mermaid block before considering the diagram done.
-- For draw.io, check for an installed `drawio`, `draw.io`, or `diagrams.net` executable and use its local export or preview capabilities when available before considering connector or label changes done.
+- For Mermaid, probe for `mmdc` in a cross-platform way and use it to render the diagram from the final source or from a temporary extracted Mermaid block before considering the diagram done.
+- For draw.io, probe for `drawio`, `draw.io`, or `diagrams.net` in a cross-platform way and use the local export or preview capabilities when available before considering connector or label changes done.
+- Probe order should be: shell-resolvable command on `PATH` first, then common package-manager shims and app install locations for the current OS.
+- On Windows, also check common npm, Chocolatey, Scoop, and desktop-app locations when the command is not already on `PATH`.
+- On macOS, also check common Homebrew locations and standard app paths such as `/Applications` and `~/Applications` when the command is not already on `PATH`.
+- On Linux, also check common user-local and system directories such as `~/.local/bin`, `/usr/local/bin`, `/usr/bin`, `/snap/bin`, and AppImage-style install locations when the command is not already on `PATH`.
 - If a local diagram CLI exists but its flags vary by install, inspect `--help` first and then run the narrowest render or export command that validates the edited file.
 - If no local CLI is available, fall back to preview-based or manual structural validation and state that render validation was unavailable.
 - Preview Mermaid in a Mermaid-compatible live editor when checking syntax, layout, or readability during authoring.

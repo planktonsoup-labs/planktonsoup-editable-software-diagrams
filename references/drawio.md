@@ -88,6 +88,10 @@ Prefer this pattern over freehand line placement because explicit `source` and `
 ## Local CLI Validation
 
 - Check for a local `drawio`, `draw.io`, or `diagrams.net` executable before relying on manual inspection alone.
+- Probe cross-platform in this order: `PATH`, then common package-manager shim directories, then common app install locations for the current OS.
+- On Windows, common fallback locations include Scoop shims, Chocolatey `bin`, `%AppData%\\npm` wrappers when used, and explicit desktop-app install folders.
+- On macOS, common fallback locations include `/opt/homebrew/bin`, `/usr/local/bin`, `/Applications/draw.io.app`, `/Applications/diagrams.net.app`, and `~/Applications`.
+- On Linux, common fallback locations include `~/.local/bin`, `/usr/local/bin`, `/usr/bin`, `/snap/bin`, Flatpak exports, and AppImage-style install paths.
 - If one is available, inspect `--help` when needed and use the narrowest local export or render-oriented command that validates the edited `.drawio` file.
 - Prefer validating the exact final file rather than a reconstructed copy.
 - If no local draw.io CLI is installed, fall back to diagrams.net preview checks and manual XML review of changed connectors, labels, and page settings, and note that CLI validation was unavailable.

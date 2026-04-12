@@ -62,6 +62,7 @@ erDiagram
 - Preserve existing node IDs when editing an existing Mermaid diagram unless they are actively harmful.
 - Avoid unsupported syntax guesses; choose a simpler Mermaid construct when uncertain.
 - Treat label text as part of syntax validation, not just content. Edge labels and node labels should use plain language rather than code-like text with embedded double quotes, escaped quotes, or dense punctuation.
+- Keep Mermaid connector labels visually plain. Do not emulate Draw.io label backfills or semi-opaque label boxes for Mermaid edge labels.
 - When `mmdc` is installed locally, use it as the default validation path and require a successful render from the final Mermaid source before considering the edit complete.
 - Preview the rendered diagram when possible and treat visually detached or ambiguous edges as correctness bugs.
 - When a long edge renders as if it misses its target, shorten the route by re-laying out nodes, adding an intermediate anchor node, or splitting the diagram.
@@ -70,6 +71,10 @@ erDiagram
 ## Local CLI Validation
 
 - Check for `mmdc` first.
+- Probe cross-platform in this order: `PATH`, then common package-manager shim directories, then common app install locations for the current OS.
+- On Windows, common fallback locations include `%AppData%\\npm`, Scoop shims, Chocolatey `bin`, and explicit app install folders.
+- On macOS, common fallback locations include `/opt/homebrew/bin`, `/usr/local/bin`, `~/Applications`, and `/Applications`.
+- On Linux, common fallback locations include `~/.local/bin`, `/usr/local/bin`, `/usr/bin`, `/snap/bin`, and AppImage-style install paths.
 - If the diagram is already a standalone `.mmd`, render that file directly.
 - If Mermaid is embedded in Markdown, extract the final fenced block to a temporary `.mmd` file and render that temporary file so the validation matches the exact checked-in source.
 - If `mmdc` is not installed, fall back to a Mermaid-compatible preview or to manual structural validation, and note that CLI render validation was unavailable.
