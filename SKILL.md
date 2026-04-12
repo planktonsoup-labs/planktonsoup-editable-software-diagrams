@@ -122,6 +122,8 @@ If both are plausible and the user did not decide, prefer Mermaid for simple str
 - Keep labels concise; move long explanations outside the diagram when possible.
 - When the request maps to a Mermaid diagram family, use that family directly instead of forcing everything into a flowchart.
 - Prefer explicit edge labels when transitions or data movement would otherwise be ambiguous.
+- Keep Mermaid labels parser-safe. Prefer plain words and short phrases over code-like snippets with embedded quotes, escaped string literals, or heavy punctuation inside node or edge labels.
+- When a label needs to mention example values or method calls, rewrite it into Mermaid-safe prose such as `Add apple` instead of `Add("apple")`, or move the exact literal example into surrounding Markdown.
 - Keep the source readable enough that a human can edit it without rendering first.
 - Connect edges to concrete nodes whenever possible. Do not rely on edges targeting `subgraph` IDs or container labels for important relationships, because many Mermaid renderers draw those connectors as floating or visually detached.
 - When you need to show that a route table, policy, ACL, or shared control applies to a subnet group or container, anchor the edge to a real node inside that container or add a dedicated anchor node inside the container instead of connecting to the container itself.
@@ -222,6 +224,11 @@ For Markdown-hosted diagrams:
 
 Use online or app-based viewers as optional design-time aids, not as the long-term source of truth.
 
+- Prefer local CLI validation first when a suitable tool is installed.
+- For Mermaid, check for `mmdc` and use it to render the diagram from the final source or from a temporary extracted Mermaid block before considering the diagram done.
+- For draw.io, check for an installed `drawio`, `draw.io`, or `diagrams.net` executable and use its local export or preview capabilities when available before considering connector or label changes done.
+- If a local diagram CLI exists but its flags vary by install, inspect `--help` first and then run the narrowest render or export command that validates the edited file.
+- If no local CLI is available, fall back to preview-based or manual structural validation and state that render validation was unavailable.
 - Preview Mermaid in a Mermaid-compatible live editor when checking syntax, layout, or readability during authoring.
 - Preview `.drawio` files in diagrams.net or another draw.io-compatible editor when refining placement, sizing, connectors, or grouping.
 - Save the final diagram source back into the repository as Markdown-embedded Mermaid, standalone `.mmd`, or `.drawio`.
@@ -253,11 +260,15 @@ Before finalizing a diagram, verify these points explicitly:
 - In draw.io, verify that decision labels and similar edge labels remain attached to the correct branch or connector location after readability fixes; do not move them away from the meaning they annotate just to avoid styling the label.
 - In Mermaid, verify that every referenced node ID exists exactly once and that edges render to the intended node after any rename or refactor.
 - In Mermaid, verify in a rendered preview that arrowheads visibly meet the intended node or anchor node rather than stopping short or appearing offset.
+- In Mermaid, do a parser-safety pass over every node label and edge label before finalizing. Rewrite labels that contain embedded double quotes, escaped quotes, or code-like delimiter sequences when a simpler phrase preserves the meaning.
+- In Mermaid, when `mmdc` is available locally, require a successful render from the final source before treating the diagram as complete.
 - In Mermaid, if long or diagonal edges render poorly, shorten the route by re-laying out nodes, adding intermediate anchor nodes, or splitting the diagram instead of accepting a barely attached edge.
 - In dense diagrams, verify that containers are instantly distinguishable from connectors by stroke treatment, color, or visual weight; if not, restyle or simplify the diagram.
 - Verify that no two meaningful lines overlap on the same trajectory long enough to look like a single line; reroute or separate them if they do.
 - If a preview reveals a visually detached connector, mis-anchored label, or ambiguous target, fix it before considering the diagram complete.
 - For Mermaid, prefer a render check in a Mermaid-compatible preview when available; otherwise, do a manual source review that confirms each referenced edge endpoint is a real node ID declared in the file.
+- For Mermaid, if a parser or preview reports an error location inside a label, treat the label text as suspect first and simplify it before changing the diagram structure.
+- For draw.io, when a local `drawio`, `draw.io`, or `diagrams.net` CLI is available, require a successful local export or preview-oriented validation step before treating connector or label edits as complete.
 
 ## File Naming
 

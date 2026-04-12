@@ -61,9 +61,43 @@ erDiagram
 - If Markdown already contains surrounding headings and prose, edit only the relevant fenced block.
 - Preserve existing node IDs when editing an existing Mermaid diagram unless they are actively harmful.
 - Avoid unsupported syntax guesses; choose a simpler Mermaid construct when uncertain.
+- Treat label text as part of syntax validation, not just content. Edge labels and node labels should use plain language rather than code-like text with embedded double quotes, escaped quotes, or dense punctuation.
+- When `mmdc` is installed locally, use it as the default validation path and require a successful render from the final Mermaid source before considering the edit complete.
 - Preview the rendered diagram when possible and treat visually detached or ambiguous edges as correctness bugs.
 - When a long edge renders as if it misses its target, shorten the route by re-laying out nodes, adding an intermediate anchor node, or splitting the diagram.
 - Prefer nearby concrete nodes or dedicated anchor nodes over distant container-like targets when Mermaid layout makes the endpoint relationship hard to read.
+
+## Local CLI Validation
+
+- Check for `mmdc` first.
+- If the diagram is already a standalone `.mmd`, render that file directly.
+- If Mermaid is embedded in Markdown, extract the final fenced block to a temporary `.mmd` file and render that temporary file so the validation matches the exact checked-in source.
+- If `mmdc` is not installed, fall back to a Mermaid-compatible preview or to manual structural validation, and note that CLI render validation was unavailable.
+
+## Label Safety
+
+- Prefer labels like `Add apple`, `Cache hit`, or `POST /orders` over labels that try to embed source-code examples.
+- If you need to show exact code or string literals such as `Add("apple")`, put them in the surrounding Markdown instead of inside the Mermaid label.
+- Avoid escaped quotes such as `\"apple\"` inside Mermaid labels. Some renderers reject them even when the surrounding diagram structure is otherwise valid.
+- When a parser error points near a label, simplify the label first, then re-check the diagram before making broader changes.
+
+### Safer Example
+
+Instead of:
+
+```mermaid
+flowchart TD
+    list -->|"Add(\"apple\"), Add(\"banana\")"| state
+```
+
+Prefer:
+
+```mermaid
+flowchart TD
+    list -->|"Add apple, Add banana"| state
+```
+
+Then describe the exact method calls in the prose around the diagram if that precision still matters.
 
 ## Hosting In Markdown
 

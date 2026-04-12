@@ -84,3 +84,10 @@ Prefer this pattern over freehand line placement because explicit `source` and `
 -  - Inline edge label rendering only when preview verification confirms the label background is actually translucent and not merely light-colored or fully opaque
 - For branch labels such as `Yes`, `No`, success/failure, or protocol annotations, keep the label anchored at the branch it describes and add the local semi-opaque background there instead of moving the label to a quieter but less meaningful location.
 - In dense diagrams, prefer the separate label vertex pattern, but do not add fully opaque label boxes everywhere when a stable canvas background preserves readability with less visual clutter.
+
+## Local CLI Validation
+
+- Check for a local `drawio`, `draw.io`, or `diagrams.net` executable before relying on manual inspection alone.
+- If one is available, inspect `--help` when needed and use the narrowest local export or render-oriented command that validates the edited `.drawio` file.
+- Prefer validating the exact final file rather than a reconstructed copy.
+- If no local draw.io CLI is installed, fall back to diagrams.net preview checks and manual XML review of changed connectors, labels, and page settings, and note that CLI validation was unavailable.

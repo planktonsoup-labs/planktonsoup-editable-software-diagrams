@@ -17,5 +17,6 @@ flowchart TD
 ## Notes
 
 - Keep terminology aligned with the codebase.
+- Keep Mermaid labels parser-safe. Prefer plain phrases over embedded quoted code examples.
 - Call out notable boundaries, assumptions, or optional flows here.
 - Link to related diagrams or design notes when useful.
