@@ -50,8 +50,15 @@ Do not switch to PlantUML, Excalidraw, SVG, PNG, Visio, or image-generation work
 5. If the requested diagram type or notation is unclear, research the common convention for that diagram type before inventing a structure.
 6. If no format is specified, choose the simplest editable format that preserves the intent.
 7. Produce the diagram source directly; do not describe a diagram without creating the file content unless the user asked for concepts only.
-8. Verify the rendered structure, not just the text syntax, before finalizing.
+8. Verify the rendered structure, not just the text syntax, before finalizing. If a required rule fails, the diagram is not complete.
 9. Keep the output diff-friendly and avoid generated noise.
+
+## Non-Negotiable Rules
+
+- Required rules are mandatory. Do not treat them as style preferences or best-effort guidance.
+- If a required Mermaid or draw.io rule fails in preview, render validation, or source review, the diagram is not complete.
+- Do not trade correctness, readability, or theme-safe rendering away for speed, visual preference, or keeping a fragile layout unchanged.
+- When a format-specific rule conflicts with a general preference, the format-specific rule wins.
 
 ## Decision Rules
 
@@ -150,7 +157,7 @@ Start from [assets/mermaid-doc-template.md](assets/mermaid-doc-template.md) for 
 - When transparent labels are used in draw.io, require `Background Style = None`.
 - For source-edited transparent non-connector labels, encode that choice directly with `labelBackgroundColor=none;` when applicable.
 - When text sits over connectors, mixed fills, dense structure, or otherwise busy surfaces, do not leave the label fully transparent.
-- In those cases, keep the label at its intended semantic location and use a dedicated label vertex with a light neutral fill at roughly `50%` `fillOpacity` so the text reads clearly while the page and nearby constructs still show through.
+- In those cases, keep the label at its intended semantic location and use a dedicated label vertex with a light neutral fill at roughly `70%` `fillOpacity` so the text reads clearly while the page and nearby constructs still show through.
 - For draw.io edge labels, branch labels, and connector-adjacent annotations, that dedicated semi-opaque label-vertex treatment is required. Do not leave them fully transparent and do not rely on the edge label background alone.
 - For those dedicated label vertices, require `Background Style = None` so the label rendering path resolves against the page and local fill instead of the editor theme layer.
 - Do not rely on `labelBackgroundColor` plus `labelBackgroundOpacity` alone to create connector-label translucency; use an actual label vertex with explicit opacity styling.
@@ -158,7 +165,7 @@ Start from [assets/mermaid-doc-template.md](assets/mermaid-doc-template.md) for 
 - When an edge needs a text label, either:
   - place the text in a small dedicated label vertex near the connector with an explicit neutral fill and opacity styling, or
   - if the diagram is exceptionally simple, use edge-label rendering only when the rendered result is visibly semi-opaque and passes preview verification.
-- For dense diagrams, use dedicated label vertices rather than inline edge labels. When they need a fill, use a translucent neutral fill at roughly `50%` `fillOpacity`, keep text fully opaque, and avoid visible borders unless needed.
+- For dense diagrams, use dedicated label vertices rather than inline edge labels. When they need a fill, use a translucent neutral fill at roughly `70%` `fillOpacity`, keep text fully opaque, and avoid visible borders unless needed.
 
 Start from [assets/blank.drawio](assets/blank.drawio) when creating a new draw.io file from scratch. Read [references/drawio.md](references/drawio.md) for the minimal structure and editing rules.
 
@@ -260,9 +267,9 @@ Before finalizing a diagram, verify these points explicitly:
 - In draw.io, verify that any transparent non-connector labels use `Background Style = None` and that source-edited transparent labels keep `labelBackgroundColor=none;` when applicable.
 - In draw.io, verify that connector labels do not fall back to theme-default black plates or editor-canvas punch-through. If they do, the diagram is not complete until the page/background-style setup and local label treatment are corrected.
 - In draw.io, verify that edge labels, branch labels, and other connector-adjacent annotations use dedicated semi-opaque label vertices unless a preview proves the inline edge-label rendering is truly translucent.
-- In draw.io, verify that connector-label translucency comes from explicit vertex style settings such as `fillOpacity=50`, not from unsupported or ineffective background-opacity assumptions.
+- In draw.io, verify that connector-label translucency comes from explicit vertex style settings such as `fillOpacity=70`, not from unsupported or ineffective background-opacity assumptions.
 - In draw.io, verify that dedicated connector-label vertices also use `Background Style = None` and do not render against the dark or light editor theme behind the page.
-- In draw.io, when a label uses a local fill for readability, verify that the fill is only as strong as needed, typically around `50%` `fillOpacity`, while the text remains fully readable.
+- In draw.io, when a label uses a local fill for readability, verify that the fill is only as strong as needed, typically around `70%` `fillOpacity`, while the text remains fully readable.
 - In draw.io, verify that decision labels and similar edge labels remain attached to the correct branch or connector location after readability fixes; do not move them away from the meaning they annotate just to avoid styling the label.
 - In Mermaid, verify that every referenced node ID exists exactly once and that edges render to the intended node after any rename or refactor.
 - In Mermaid, verify in a rendered preview that arrowheads visibly meet the intended node or anchor node rather than stopping short or appearing offset.
@@ -273,7 +280,7 @@ Before finalizing a diagram, verify these points explicitly:
 - In dense diagrams, verify that containers are instantly distinguishable from connectors by stroke treatment, color, or visual weight; if not, restyle or simplify the diagram.
 - Verify that no two meaningful lines overlap on the same trajectory long enough to look like a single line; reroute or separate them if they do.
 - If a preview reveals a visually detached connector, mis-anchored label, or ambiguous target, fix it before considering the diagram complete.
-- For Mermaid, prefer a render check in a Mermaid-compatible preview when available; otherwise, do a manual source review that confirms each referenced edge endpoint is a real node ID declared in the file.
+- For Mermaid, require a render check in a Mermaid-compatible preview when available; otherwise, do a manual source review that confirms each referenced edge endpoint is a real node ID declared in the file.
 - For Mermaid, if a parser or preview reports an error location inside a label, treat the label text as suspect first and simplify it before changing the diagram structure.
 - For draw.io, when a local `drawio`, `draw.io`, or `diagrams.net` CLI is available, require a successful local export or preview-oriented validation step before treating connector or label edits as complete.
 

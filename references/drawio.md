@@ -75,15 +75,15 @@ Prefer this pattern over freehand line placement because explicit `source` and `
 - This is a source-level rendering rule, not just a styling preference: `Background Style = None` changes the label rendering path so transparent text resolves against the page instead of the editor canvas.
 - When hand-editing XML for transparent non-connector labels, set `labelBackgroundColor=none;` when needed so the label reveals the page background or local filled surface instead of a theme-colored plate.
 - When a label crosses connectors, mixed fills, or busy areas, do not rely on transparency alone.
-- In those cases, keep the label near the connector segment or branch it explains and use a dedicated label vertex with a light neutral fill at roughly `50%` `fillOpacity` so the page and nearby constructs still show through instead of being fully blocked.
+- In those cases, keep the label near the connector segment or branch it explains and use a dedicated label vertex with a light neutral fill at roughly `70%` `fillOpacity` so the page and nearby constructs still show through instead of being fully blocked.
 - For edge labels, branch labels such as `Yes` and `No`, and other connector-adjacent annotations, that dedicated semi-opaque label-vertex treatment is required even when the underlying page is otherwise readable.
-- Do not assume `labelBackgroundColor` with a nominal background-opacity setting will render translucently for connector labels. In practice, use a separate label vertex with explicit `fillOpacity=50`, keep `opacity=100` and `textOpacity=100`, require `Background Style = None`, and remove the border unless it carries meaning.
+- Do not assume `labelBackgroundColor` with a nominal background-opacity setting will render translucently for connector labels. In practice, use a separate label vertex with explicit `fillOpacity=70`, keep `opacity=100` and `textOpacity=100`, require `Background Style = None`, and remove the border unless it carries meaning.
 - In the dark diagrams.net editor, under-specified labels can fall back to black plates, black rectangles, or canvas-punch-through transparency. Treat that as a bug and correct it by setting the page background color first, then using `Background Style = None`, then adjusting label styling only if needed.
-- For edge labels, prefer one of these patterns:
--  - A separate small label vertex near the connector, with `fillOpacity=50`, readable text color, `Background Style = None`, and little or no visible border
--  - Inline edge label rendering only when preview verification confirms the label background is actually translucent and not merely light-colored or fully opaque
+- For edge labels, use one of these patterns:
+  - A separate small label vertex near the connector, with `fillOpacity=70`, readable text color, `Background Style = None`, and little or no visible border
+  - Inline edge label rendering only when preview verification confirms the label background is actually translucent and not merely light-colored or fully opaque
 - For branch labels such as `Yes`, `No`, success/failure, or protocol annotations, keep the label anchored at the branch it describes and add the local semi-opaque background there instead of moving the label to a quieter but less meaningful location.
-- In dense diagrams, prefer the separate label vertex pattern, but do not add fully opaque label boxes everywhere when a stable canvas background preserves readability with less visual clutter.
+- In dense diagrams, use the separate label vertex pattern unless a simpler inline label demonstrably passes all required render checks.
 
 ## Local CLI Validation
 

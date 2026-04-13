@@ -30,11 +30,6 @@ Treat this distinction as a priority, not an optional polish pass.
 - Include a short subtitle, caption, or nearby context sentence explaining scope.
 - Prefer bold labels for major nodes and groups.
 - Reserve regular text for small annotations, examples, or code-like snippets.
-- For Draw.io, establish an explicit page background color first.
-- When Draw.io labels should remain transparent, require `Background Style = None` so transparency resolves against the page rendering path rather than the editor canvas layer.
-- When Draw.io labels sit on busy, mixed, or line-heavy surfaces, do not leave them fully transparent.
-- In those cases, keep the label at the location it is meant to annotate and use a dedicated label vertex with a light neutral background at roughly `50%` `fillOpacity` and `Background Style = None` so readability improves without completely hiding the page or shapes behind it.
-- For Draw.io edge labels, branch labels, and connector-adjacent annotations, use that dedicated semi-opaque label-vertex treatment as a requirement.
 
 ## Connectors
 
@@ -53,24 +48,3 @@ Treat this distinction as a priority, not an optional polish pass.
 - Leave enough whitespace that later edits do not force immediate re-layout.
 - Add a legend when more than three semantic colors are in play.
 - Offset, reroute, or shorten lines that would otherwise overlap or stack on the same trajectory.
-
-## Applying In Mermaid
-
-- Prefer `classDef` blocks or inline style directives only when the extra styling clearly improves readability.
-- Keep the number of classes small and tied to semantic roles.
-- Do not over-style if the host Markdown renderer has limited Mermaid support.
-- Keep Mermaid connector labels plain and background-transparent; do not apply Draw.io-style backfill behavior or filled label treatments to Mermaid edge labels.
-- When using subgraphs or styled grouping boxes, keep their border treatment quieter than the main arrows so readers can distinguish containment from flow.
-- If Mermaid styling limits make boxes and arrows feel too similar, reduce the number of visible group boundaries or move detail into multiple smaller diagrams.
-- In Mermaid, if two edges or an edge and a subgraph border visually merge, restructure the layout or use anchor nodes so each path stays legible.
-
-## Applying In Draw.io
-
-- Use bold box labels by default.
-- Keep fill, stroke, and font colors explicit when readability depends on them.
-- Use tinted containers for grouped sections instead of heavy decorative framing.
-- Give container outlines a different stroke color, opacity, or weight than connectors.
-- Do not let dashed container borders visually compete with dashed optional arrows; if both are needed, differentiate them by color or stroke weight.
-- In complex Draw.io diagrams, use subtle fills and quieter boundaries for areas so connectors remain the strongest directional marks on the page.
-- In Draw.io, route connectors so parallel or crossing lines remain visually separable instead of sitting on top of each other.
-- In Draw.io, reserve transparent labels for quiet non-connector text only, and use dedicated translucent neutral label vertices for edge labels and connector-adjacent annotations.
