@@ -149,6 +149,7 @@ Start from [assets/mermaid-doc-template.md](assets/mermaid-doc-template.md) for 
 - Prefer a single page unless the user asks for multiple pages.
 - Use a consistent coordinate grid and leave reasonable spacing between shapes.
 - Use simple built-in shapes and edge styles before introducing more complex styling.
+- Treat raw-XML draw.io files as a strict schema. If the XML does not conform cleanly, the file is incorrect even if the structure looks close.
 - Keep labels in the XML as plain readable text; avoid unnecessary metadata.
 - Keep the XML manually editable; avoid noisy style churn unless a style change is part of the request.
 - Prefer connectors with explicit `source` and `target` shape IDs over loose geometry-only lines.
@@ -263,6 +264,8 @@ Before finalizing a diagram, verify these points explicitly:
 - Multiline labels remain readable and do not push connector endpoints into awkward positions.
 - If the diagram is crowded enough that verification is ambiguous, simplify it or split it into two focused diagrams.
 - In draw.io, verify that each changed edge has the intended `source` and `target` IDs and does not rely only on freehand coordinates.
+- In draw.io, verify that raw-XML files contain no comments inside `<diagram>`, no stray text nodes, and only `<mxCell>` children inside `<root>`.
+- In draw.io, verify that `<diagram>` contains exactly one `<mxGraphModel>` element and no extra text or tags.
 - In draw.io, check that routed connectors still attach correctly after moving grouped boxes, containers, or section boundaries.
 - In draw.io, verify that the page background color is explicitly set and that labels remain readable in both dark and light render modes.
 - In draw.io, verify that any transparent non-connector labels use `Background Style = None` and that source-edited transparent labels keep `labelBackgroundColor=none;` when applicable.

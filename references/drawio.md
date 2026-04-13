@@ -21,6 +21,24 @@ Prefer uncompressed XML:
 
 Always set the page background color explicitly for new diagrams. Do not assume a light-looking editor canvas behaves like a real white page in dark mode.
 
+## Raw XML Requirements
+
+Treat Form B raw-XML draw.io files as a strict schema.
+
+- Use `compressed="false"` for raw XML.
+- `<diagram>` must contain exactly one child element: `<mxGraphModel>`.
+- Do not place comments anywhere inside `<diagram>`.
+- Do not place stray text nodes, unknown tags, or whitespace-only content inside `<diagram>` or `<root>` beyond normal XML formatting.
+- `<root>` must contain only `<mxCell>` elements.
+- Keep the two base cells present:
+  - `<mxCell id="0" />`
+  - `<mxCell id="1" parent="0" />`
+- After those base cells, keep only valid `<mxCell>` elements.
+- Do not mix raw XML with encoded fragments, partial encoding, or base64 payloads.
+- Avoid XML declarations for these raw files.
+
+If draw.io shows an `atob` decoding error for a raw-XML file, treat that as a parser failure first, not as an encoding problem.
+
 ## Common Shape Pattern
 
 Each visible shape is usually an `mxCell` with:
@@ -66,6 +84,9 @@ Prefer this pattern over freehand line placement because explicit `source` and `
 - Prefer one page unless the user explicitly asks for more.
 - Preserve the existing page ID and root structure when editing an existing file.
 - Prefer hand-editable XML over tool-generated churn.
+- Do not insert XML comments inside `<diagram>`, `<mxGraphModel>`, or `<root>`.
+- Do not place non-`mxCell` elements inside `<root>`.
+- Do not leave stray text nodes inside `<diagram>` or `<root>`.
 - Prefer connectors with explicit `source` and `target` IDs.
 - After editing, preview the file and verify arrowheads visibly land on the intended shape edges.
 - When a connector targets a broad container and renders poorly, connect it to a nearby concrete node or add a small anchor node to make the relationship unambiguous.
@@ -84,6 +105,22 @@ Prefer this pattern over freehand line placement because explicit `source` and `
   - Inline edge label rendering only when preview verification confirms the label background is actually translucent and not merely light-colored or fully opaque
 - For branch labels such as `Yes`, `No`, success/failure, or protocol annotations, keep the label anchored at the branch it describes and add the local semi-opaque background there instead of moving the label to a quieter but less meaningful location.
 - In dense diagrams, use the separate label vertex pattern unless a simpler inline label demonstrably passes all required render checks.
+
+## XML Safety Checklist
+
+Before considering a raw-XML `.drawio` file complete, verify all of the following:
+
+- No comments anywhere inside `<diagram>`
+- `<diagram>` contains only `<mxGraphModel>`
+- `<root>` contains only `<mxCell>`
+- All HTML in `value=` attributes is escaped
+- No stray text nodes or unknown tags
+- Every `id` is unique
+- Every `parent` points to an existing cell
+- Every edge `source` and `target` points to an existing cell
+- Every vertex has an `mxGeometry` child with `as="geometry"`
+
+If any of these fail, fix the XML structure before troubleshooting rendering.
 
 ## Local CLI Validation
 
