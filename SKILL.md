@@ -119,6 +119,7 @@ If both are plausible and the user did not decide, prefer Mermaid for simple str
 - Preserve labels, IDs, layout intent, and surrounding documentation structure unless the request requires a broader rework.
 - Do not revamp an existing diagram unless the request requires it or the current diagram violates the skill's correctness or readability requirements.
 - Keep Mermaid, Markdown, and raw-XML draw.io files in UTF-8 without BOM unless the existing file already uses a different encoding and the user explicitly wants that preserved.
+- If an existing `.drawio` file is stored as compressed or encoded diagram content, decode it to raw XML before making source edits so the actual structure can be inspected and changed safely.
 - For draw.io, keep files uncompressed unless the file already uses compression or compatibility requires it.
 - For Mermaid embedded in Markdown, edit only the targeted fenced block unless the surrounding prose also needs updates.
 

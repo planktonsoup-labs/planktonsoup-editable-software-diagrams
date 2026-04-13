@@ -40,6 +40,25 @@ Treat Form B raw-XML draw.io files as a strict schema.
 
 If draw.io shows an `atob` decoding error for a raw-XML file, treat that as a parser failure first, not as an encoding problem.
 
+## Editing Existing Encoded Files
+
+Projects may already contain `.drawio` files that are not stored as readable raw XML.
+
+- If `compressed="true"`, the `<diagram>` content is compressed/encoded diagram payload, not directly editable raw XML.
+- Some project files may also contain encoded diagram payloads that need to be decoded before safe source editing.
+- For maintenance work, decode those files back to raw XML first, inspect and edit the real `mxGraphModel`, then decide whether to keep the project format or normalize to `compressed="false"`.
+- Do not attempt structural edits against compressed payload text directly.
+
+When editing an existing encoded draw.io file:
+
+1. Detect whether the file is raw XML or encoded/compressed diagram content.
+2. If encoded or compressed, decode it back to raw XML first.
+3. Make structural edits against the decoded `mxGraphModel`.
+4. Validate the raw XML structure and rendering.
+5. Preserve the original storage format only when the project already depends on it or the user explicitly wants it preserved. Otherwise prefer `compressed="false"` for maintainability.
+
+If you cannot decode the existing payload back to inspectable raw XML, do not guess at edits inside the encoded content.
+
 ## Common Shape Pattern
 
 Each visible shape is usually an `mxCell` with:
