@@ -22,17 +22,16 @@ The skill should stay focused on those formats. Do not broaden scope to image-ge
 
 When a rule is format-specific, keep it out of `styling.md` and put it in the relevant format reference.
 
-## Hard Invariants
+## Invariants
 
 - Keep the skill name consistent as `planktonsoup-editable-software-diagrams` wherever the skill name is described.
 - Keep product wording generic. Avoid vendor-specific prose in documentation unless a filename or compatibility surface requires it.
 - Keep Mermaid and draw.io rules clearly separated.
 - Keep required behaviors explicit. If something is non-negotiable, write it as a requirement, not a preference.
 - Keep outputs editable, diff-friendly, and human-reviewable.
-- Keep the skill grounded in actual code and project context rather than guessed architecture.
 - Keep changes small and coherent. Do not rewrite the whole skill when a localized change is enough.
 
-## Maintenance Rules
+## Maintenance
 
 - Prefer editing existing files over adding new ones.
 - Do not add example artifacts, generated diagrams, screenshots, or extra folders unless they are clearly necessary.
@@ -51,15 +50,12 @@ When a rule is format-specific, keep it out of `styling.md` and put it in the re
 
 If you are unsure where a new instruction belongs, place it in the most specific file that fully owns that behavior.
 
-## Validation Expectations
+## Validation
 
-When editing this skill:
-
-- Re-read any file you touched and remove stale or contradictory wording.
-- Check that references, assets, and filenames mentioned in docs actually exist.
-- Check that format-specific requirements did not leak into the general styling reference.
-- Check that Mermaid guidance does not inherit draw.io behavior, and vice versa.
-- Keep required validation steps and correctness checks intact unless you are intentionally improving them.
+- Re-read any file you touch and remove stale or contradictory wording.
+- Check that referenced files and assets actually exist.
+- Check that format-specific rules did not leak into `references/styling.md`.
+- Keep required validation and correctness checks intact unless you are intentionally improving them.
 
 ## Avoid
 
