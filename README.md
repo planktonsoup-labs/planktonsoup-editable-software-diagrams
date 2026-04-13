@@ -1,23 +1,25 @@
 # planktonsoup-editable-software-diagrams
 
-A GitHub Copilot/agent skill for creating and updating software diagrams in human-readable, source-friendly formats.
+An agent skill for creating and updating software-development diagrams in human-readable, source-friendly formats.
 
-## What this repo is
+## Overview
 
-This repository defines the `planktonsoup-editable-software-diagrams` agent skill. It is optimized for:
+This directory defines the `planktonsoup-editable-software-diagrams` agent skill. It is optimized for:
 
 - [Mermaid][mermaid] diagrams (`.mmd` or Markdown fenced code blocks)
 - [draw.io][drawio] diagrams (`.drawio`)
 
 The skill is intended for architecture, flow, state, ERD, deployment, and integration diagrams that are easy for both humans and agents to review, edit, and version.
 
-## Repository structure
+## Structure
 
 - `SKILL.md` — Skill metadata, scope, and authoring guidance.
-- `agents/openai.yaml` — Agent runtime configuration.
+- `agents/openai.yaml` — Runtime metadata for environments that use this file convention.
 - `assets/blank.drawio` — Starter template for new [draw.io][drawio] diagrams.
 - `assets/mermaid-doc-template.md` — Starter template for Mermaid diagrams hosted in Markdown.
-- `references/` — Style and format guidance for [Mermaid][mermaid] and [draw.io][drawio].
+- `references/styling.md` — General visual guidance shared across diagram formats.
+- `references/mermaid.md` — Mermaid-specific syntax, validation, and editing guidance.
+- `references/drawio.md` — draw.io-specific XML, rendering, and validation guidance.
 
 ## Usage
 
