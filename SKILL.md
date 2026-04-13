@@ -131,6 +131,7 @@ If both are plausible and the user did not decide, prefer Mermaid for simple str
 - Prefer explicit edge labels when transitions or data movement would otherwise be ambiguous.
 - Keep Mermaid labels parser-safe. Prefer plain words and short phrases over code-like snippets with embedded quotes, escaped string literals, or heavy punctuation inside node or edge labels.
 - When a label needs to mention example values or method calls, rewrite it into Mermaid-safe prose such as `Add apple` instead of `Add("apple")`, or move the exact literal example into surrounding Markdown.
+- Do not emit literal `\n` text in Mermaid labels when a visual line break is intended. Use Mermaid-supported line-break syntax for the chosen diagram family, such as `<br/>` where supported, or rewrite the label into shorter Mermaid-safe phrases.
 - Do not add Draw.io-style label backfills, label plates, or semi-opaque label boxes to Mermaid connector labels.
 - Mermaid connector labels must keep a transparent background fill. If a Mermaid render shows a filled plate or backfill behind connector text, treat that as incorrect and remove the styling that caused it.
 - Keep the source readable enough that a human can edit it without rendering first.
@@ -274,6 +275,7 @@ Before finalizing a diagram, verify these points explicitly:
 - In Mermaid, verify that every referenced node ID exists exactly once and that edges render to the intended node after any rename or refactor.
 - In Mermaid, verify in a rendered preview that arrowheads visibly meet the intended node or anchor node rather than stopping short or appearing offset.
 - In Mermaid, verify that connector labels render with transparent backgrounds rather than filled plates or backfills.
+- In Mermaid, verify that intended multiline labels render as actual line breaks rather than literal `\\n` text.
 - In Mermaid, do a parser-safety pass over every node label and edge label before finalizing. Rewrite labels that contain embedded double quotes, escaped quotes, or code-like delimiter sequences when a simpler phrase preserves the meaning.
 - In Mermaid, when `mmdc` is available locally, require a successful render from the final source before treating the diagram as complete.
 - In Mermaid, if long or diagonal edges render poorly, shorten the route by re-laying out nodes, adding intermediate anchor nodes, or splitting the diagram instead of accepting a barely attached edge.
