@@ -164,6 +164,7 @@ Start from [assets/mermaid-doc-template.md](assets/mermaid-doc-template.md) for 
 - When text sits over connectors, mixed fills, dense structure, or otherwise busy surfaces, do not leave the label fully transparent.
 - In those cases, keep the label at its intended semantic location and use a dedicated label vertex with a light neutral fill at roughly `70%` `fillOpacity` so the text reads clearly while the page and nearby constructs still show through.
 - For draw.io edge labels, branch labels, and connector-adjacent annotations, that dedicated semi-opaque label-vertex treatment is required. Do not leave them fully transparent and do not rely on the edge label background alone.
+- Connector-label text color must also contrast with the label fill and page background. Do not use white or near-white text on light connector-label fills.
 - For those dedicated label vertices, require `Background Style = None` so the label rendering path resolves against the page and local fill instead of the editor theme layer.
 - Do not rely on `labelBackgroundColor` plus `labelBackgroundOpacity` alone to create connector-label translucency; use an actual label vertex with explicit opacity styling.
 - Treat theme-dependent black label plates, black rectangles, or canvas-punch-through transparency as correctness bugs.
@@ -191,6 +192,9 @@ When the repository does not already enforce a conflicting diagram style, prefer
 - Use solid arrows for required flows and dashed arrows or borders for optional, pluggable, or extensible relationships.
 - Avoid giving arrows and area boundaries the same line weight, dash pattern, and color in dense diagrams.
 - Avoid routing multiple meaningful lines along the same visual trajectory when they could be mistaken for one line.
+- All text must remain distinctly readable against its immediate background, fill, or local label surface.
+- Do not allow any text to blend into the page, a node fill, a container tint, or a local label treatment.
+- If text contrast is weak, restyle the text color or the local surface until the contrast is obvious.
 - Keep page or canvas width moderate so the diagram fits comfortably in common documentation views.
 - If containers and connectors still read as the same texture after styling, reduce density or split the diagram rather than accepting the ambiguity.
 - If two connectors or a connector and a boundary overlap for a meaningful stretch, reroute, offset, or split the diagram instead of accepting the overlap.
@@ -272,6 +276,7 @@ Before finalizing a diagram, verify these points explicitly:
 - In draw.io, verify that raw-XML files are saved as UTF-8 without BOM.
 - In draw.io, check that routed connectors still attach correctly after moving grouped boxes, containers, or section boundaries.
 - In draw.io, verify that connector strokes and arrowheads remain visibly distinct from the page background and are not white or near-white on light pages.
+- Verify that all text remains visibly distinct from its local background, fill, or label surface in the rendered preview.
 - In draw.io, verify that the page background color is explicitly set and that labels remain readable in both dark and light render modes.
 - In draw.io, verify that any transparent non-connector labels use `Background Style = None` and that source-edited transparent labels keep `labelBackgroundColor=none;` when applicable.
 - In draw.io, verify that connector labels do not fall back to theme-default black plates or editor-canvas punch-through. If they do, the diagram is not complete until the page/background-style setup and local label treatment are corrected.
@@ -279,6 +284,7 @@ Before finalizing a diagram, verify these points explicitly:
 - In draw.io, verify that connector-label translucency comes from explicit vertex style settings such as `fillOpacity=70`, not from unsupported or ineffective background-opacity assumptions.
 - In draw.io, verify that dedicated connector-label vertices also use `Background Style = None` and do not render against the dark or light editor theme behind the page.
 - In draw.io, when a label uses a local fill for readability, verify that the fill is only as strong as needed, typically around `70%` `fillOpacity`, while the text remains fully readable.
+- In draw.io, verify that connector-label text remains visibly distinct from both the label fill and the page background; white or near-white text on light label fills is incorrect.
 - In draw.io, verify that decision labels and similar edge labels remain attached to the correct branch or connector location after readability fixes; do not move them away from the meaning they annotate just to avoid styling the label.
 - In Mermaid, verify that every referenced node ID exists exactly once and that edges render to the intended node after any rename or refactor.
 - In Mermaid, verify in a rendered preview that arrowheads visibly meet the intended node or anchor node rather than stopping short or appearing offset.

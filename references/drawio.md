@@ -112,6 +112,8 @@ Prefer this pattern over freehand line placement because explicit `source` and `
 - When a connector targets a broad container and renders poorly, connect it to a nearby concrete node or add a small anchor node to make the relationship unambiguous.
 - Use explicit connector stroke and arrow colors that contrast with the page background. Do not leave connector styling at white or near-white values on light pages.
 - Always set an explicit page background color for new diagrams so readability does not depend on dark-mode or light-mode editor defaults.
+- Ensure all draw.io text contrasts with the local surface behind it, including node text, container titles, notes, legends, and connector labels.
+- Do not use white or near-white text on light page areas, light fills, or light label treatments, and do not use dark text on dark fills.
 - Allow transparent labels only for non-connector text that sits on that known page background or inside a filled shape with sufficient contrast.
 - When transparent labels are used, set `Background Style = None` so draw.io uses the simpler SVG/text fallback path instead of the theme-dependent HTML label layer.
 - This is a source-level rendering rule, not just a styling preference: `Background Style = None` changes the label rendering path so transparent text resolves against the page instead of the editor canvas.
@@ -119,6 +121,7 @@ Prefer this pattern over freehand line placement because explicit `source` and `
 - When a label crosses connectors, mixed fills, or busy areas, do not rely on transparency alone.
 - In those cases, keep the label near the connector segment or branch it explains and use a dedicated label vertex with a light neutral fill at roughly `70%` `fillOpacity` so the page and nearby constructs still show through instead of being fully blocked.
 - For edge labels, branch labels such as `Yes` and `No`, and other connector-adjacent annotations, that dedicated semi-opaque label-vertex treatment is required even when the underlying page is otherwise readable.
+- Use a connector-label text color that contrasts with the label fill. Do not use white or near-white text on those light neutral label fills.
 - Do not assume `labelBackgroundColor` with a nominal background-opacity setting will render translucently for connector labels. In practice, use a separate label vertex with explicit `fillOpacity=70`, keep `opacity=100` and `textOpacity=100`, require `Background Style = None`, and remove the border unless it carries meaning.
 - In the dark diagrams.net editor, under-specified labels can fall back to black plates, black rectangles, or canvas-punch-through transparency. Treat that as a bug and correct it by setting the page background color first, then using `Background Style = None`, then adjusting label styling only if needed.
 - For edge labels, use one of these patterns:
@@ -136,6 +139,8 @@ Before considering a raw-XML `.drawio` file complete, verify all of the followin
 - `<diagram>` contains only `<mxGraphModel>`
 - `<root>` contains only `<mxCell>`
 - Connector strokes and arrowheads visibly contrast with the page background
+- All text visibly contrasts with its immediate page, fill, or local label surface
+- Connector-label text visibly contrasts with both the label fill and the page background
 - All HTML in `value=` attributes is escaped
 - No stray text nodes or unknown tags
 - Every `id` is unique

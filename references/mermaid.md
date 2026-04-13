@@ -62,6 +62,8 @@ erDiagram
 - Save Mermaid source and Markdown files that host Mermaid as UTF-8 without BOM.
 - Preserve existing node IDs when editing an existing Mermaid diagram unless they are actively harmful.
 - Avoid unsupported syntax guesses; choose a simpler Mermaid construct when uncertain.
+- Ensure all Mermaid text contrasts with the rendered surface behind it, including node labels, section labels, notes, and connector labels.
+- Do not accept Mermaid theme or class styling that makes text blend into the page, node fill, or local label surface.
 - Treat label text as part of syntax validation, not just content. Edge labels and node labels should use plain language rather than code-like text with embedded double quotes, escaped quotes, or dense punctuation.
 - Do not treat `\n` as a portable Mermaid line-break mechanism. If a label needs multiple visual lines, use Mermaid-supported line-break syntax for that diagram family, such as `<br/>` where supported, or shorten and split the wording.
 - Keep Mermaid connector labels visually plain and background-transparent. Do not emulate Draw.io label backfills, filled label plates, or semi-opaque label boxes for Mermaid edge labels.

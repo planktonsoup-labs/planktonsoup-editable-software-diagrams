@@ -30,6 +30,11 @@ Treat this distinction as a priority, not an optional polish pass.
 - Include a short subtitle, caption, or nearby context sentence explaining scope.
 - Prefer bold labels for major nodes and groups.
 - Reserve regular text for small annotations, examples, or code-like snippets.
+- All text must visibly contrast with the immediate surface behind it.
+- Do not use white or near-white text on light fills, light page areas, or light local label treatments.
+- Do not use dark or near-dark text on dark fills, dark page areas, or dark local label treatments.
+- If text sits on a mixed, busy, or ambiguous surface, change the text color or local treatment until the text is distinctly readable.
+- Treat weak text contrast as a correctness failure, not as optional polish.
 
 ## Connectors
 
