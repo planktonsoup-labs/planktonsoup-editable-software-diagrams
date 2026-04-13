@@ -110,6 +110,7 @@ Prefer this pattern over freehand line placement because explicit `source` and `
 - Prefer connectors with explicit `source` and `target` IDs.
 - After editing, preview the file and verify arrowheads visibly land on the intended shape edges.
 - When a connector targets a broad container and renders poorly, connect it to a nearby concrete node or add a small anchor node to make the relationship unambiguous.
+- Use explicit connector stroke and arrow colors that contrast with the page background. Do not leave connector styling at white or near-white values on light pages.
 - Always set an explicit page background color for new diagrams so readability does not depend on dark-mode or light-mode editor defaults.
 - Allow transparent labels only for non-connector text that sits on that known page background or inside a filled shape with sufficient contrast.
 - When transparent labels are used, set `Background Style = None` so draw.io uses the simpler SVG/text fallback path instead of the theme-dependent HTML label layer.
@@ -134,6 +135,7 @@ Before considering a raw-XML `.drawio` file complete, verify all of the followin
 - No comments anywhere inside `<diagram>`
 - `<diagram>` contains only `<mxGraphModel>`
 - `<root>` contains only `<mxCell>`
+- Connector strokes and arrowheads visibly contrast with the page background
 - All HTML in `value=` attributes is escaped
 - No stray text nodes or unknown tags
 - Every `id` is unique

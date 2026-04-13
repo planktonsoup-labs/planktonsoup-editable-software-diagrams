@@ -157,6 +157,7 @@ Start from [assets/mermaid-doc-template.md](assets/mermaid-doc-template.md) for 
 - Prefer connectors with explicit `source` and `target` shape IDs over loose geometry-only lines.
 - When a connector must land on a specific shape, use concrete endpoints or stable entry/exit anchoring instead of relying on approximate placement.
 - Always set an explicit page background color for draw.io diagrams so text readability does not depend on the editor theme alone.
+- Use explicit dark or otherwise high-contrast connector stroke and arrow colors. Do not allow draw.io connectors or arrowheads to blend into the page background.
 - Only non-connector text may remain transparent, and only when it sits on a known readable page or shape surface.
 - When transparent labels are used in draw.io, require `Background Style = None`.
 - For source-edited transparent non-connector labels, encode that choice directly with `labelBackgroundColor=none;` when applicable.
@@ -270,6 +271,7 @@ Before finalizing a diagram, verify these points explicitly:
 - In draw.io, verify that `<diagram>` contains exactly one `<mxGraphModel>` element and no extra text or tags.
 - In draw.io, verify that raw-XML files are saved as UTF-8 without BOM.
 - In draw.io, check that routed connectors still attach correctly after moving grouped boxes, containers, or section boundaries.
+- In draw.io, verify that connector strokes and arrowheads remain visibly distinct from the page background and are not white or near-white on light pages.
 - In draw.io, verify that the page background color is explicitly set and that labels remain readable in both dark and light render modes.
 - In draw.io, verify that any transparent non-connector labels use `Background Style = None` and that source-edited transparent labels keep `labelBackgroundColor=none;` when applicable.
 - In draw.io, verify that connector labels do not fall back to theme-default black plates or editor-canvas punch-through. If they do, the diagram is not complete until the page/background-style setup and local label treatment are corrected.
