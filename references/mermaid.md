@@ -59,6 +59,7 @@ erDiagram
 - Use subgraphs only when they materially clarify grouping.
 - Do not over-style with classes unless the styling carries meaning.
 - If Markdown already contains surrounding headings and prose, edit only the relevant fenced block.
+- Save Mermaid source and Markdown files that host Mermaid as UTF-8 without BOM.
 - Preserve existing node IDs when editing an existing Mermaid diagram unless they are actively harmful.
 - Avoid unsupported syntax guesses; choose a simpler Mermaid construct when uncertain.
 - Treat label text as part of syntax validation, not just content. Edge labels and node labels should use plain language rather than code-like text with embedded double quotes, escaped quotes, or dense punctuation.

@@ -25,6 +25,7 @@ Always set the page background color explicitly for new diagrams. Do not assume 
 
 Treat Form B raw-XML draw.io files as a strict schema.
 
+- Save raw `.drawio` XML as UTF-8 without BOM.
 - Use `compressed="false"` for raw XML.
 - `<diagram>` must contain exactly one child element: `<mxGraphModel>`.
 - Do not place comments anywhere inside `<diagram>`.
@@ -110,6 +111,7 @@ Prefer this pattern over freehand line placement because explicit `source` and `
 
 Before considering a raw-XML `.drawio` file complete, verify all of the following:
 
+- File encoding is UTF-8 without BOM
 - No comments anywhere inside `<diagram>`
 - `<diagram>` contains only `<mxGraphModel>`
 - `<root>` contains only `<mxCell>`

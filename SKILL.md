@@ -118,6 +118,7 @@ If both are plausible and the user did not decide, prefer Mermaid for simple str
 - Make the smallest coherent change that satisfies the request.
 - Preserve labels, IDs, layout intent, and surrounding documentation structure unless the request requires a broader rework.
 - Do not revamp an existing diagram unless the request requires it or the current diagram violates the skill's correctness or readability requirements.
+- Keep Mermaid, Markdown, and raw-XML draw.io files in UTF-8 without BOM unless the existing file already uses a different encoding and the user explicitly wants that preserved.
 - For draw.io, keep files uncompressed unless the file already uses compression or compatibility requires it.
 - For Mermaid embedded in Markdown, edit only the targeted fenced block unless the surrounding prose also needs updates.
 
@@ -266,6 +267,7 @@ Before finalizing a diagram, verify these points explicitly:
 - In draw.io, verify that each changed edge has the intended `source` and `target` IDs and does not rely only on freehand coordinates.
 - In draw.io, verify that raw-XML files contain no comments inside `<diagram>`, no stray text nodes, and only `<mxCell>` children inside `<root>`.
 - In draw.io, verify that `<diagram>` contains exactly one `<mxGraphModel>` element and no extra text or tags.
+- In draw.io, verify that raw-XML files are saved as UTF-8 without BOM.
 - In draw.io, check that routed connectors still attach correctly after moving grouped boxes, containers, or section boundaries.
 - In draw.io, verify that the page background color is explicitly set and that labels remain readable in both dark and light render modes.
 - In draw.io, verify that any transparent non-connector labels use `Background Style = None` and that source-edited transparent labels keep `labelBackgroundColor=none;` when applicable.
@@ -279,6 +281,7 @@ Before finalizing a diagram, verify these points explicitly:
 - In Mermaid, verify in a rendered preview that arrowheads visibly meet the intended node or anchor node rather than stopping short or appearing offset.
 - In Mermaid, verify that connector labels render with transparent backgrounds rather than filled plates or backfills.
 - In Mermaid, verify that intended multiline labels render as actual line breaks rather than literal `\\n` text.
+- In Mermaid, verify that `.mmd` files and Markdown files containing Mermaid blocks are saved as UTF-8 without BOM.
 - In Mermaid, do a parser-safety pass over every node label and edge label before finalizing. Rewrite labels that contain embedded double quotes, escaped quotes, or code-like delimiter sequences when a simpler phrase preserves the meaning.
 - In Mermaid, when `mmdc` is available locally, require a successful render from the final source before treating the diagram as complete.
 - In Mermaid, if long or diagonal edges render poorly, shorten the route by re-laying out nodes, adding intermediate anchor nodes, or splitting the diagram instead of accepting a barely attached edge.
