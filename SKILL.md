@@ -127,79 +127,34 @@ If both are plausible and the user did not decide, prefer Mermaid for simple str
 
 - Emit valid Mermaid syntax with a single top-level diagram declaration.
 - Use short, stable node IDs and human-readable labels.
-- Favor vertical or left-to-right layouts only when they improve readability.
-- Keep labels concise; move long explanations outside the diagram when possible.
 - When the request maps to a Mermaid diagram family, use that family directly instead of forcing everything into a flowchart.
+- Keep labels concise and parser-safe. Prefer plain phrases over embedded quotes, escaped literals, or dense punctuation.
 - Prefer explicit edge labels when transitions or data movement would otherwise be ambiguous.
-- Keep Mermaid labels parser-safe. Prefer plain words and short phrases over code-like snippets with embedded quotes, escaped string literals, or heavy punctuation inside node or edge labels.
-- When a label needs to mention example values or method calls, rewrite it into Mermaid-safe prose such as `Add apple` instead of `Add("apple")`, or move the exact literal example into surrounding Markdown.
-- Do not emit literal `\n` text in Mermaid labels when a visual line break is intended. Use Mermaid-supported line-break syntax for the chosen diagram family, such as `<br/>` where supported, or rewrite the label into shorter Mermaid-safe phrases.
-- Do not add Draw.io-style label backfills, label plates, or semi-opaque label boxes to Mermaid connector labels.
-- Mermaid connector labels must keep a transparent background fill. If a Mermaid render shows a filled plate or backfill behind connector text, treat that as incorrect and remove the styling that caused it.
-- Keep the source readable enough that a human can edit it without rendering first.
-- Connect edges to concrete nodes whenever possible. Do not rely on edges targeting `subgraph` IDs or container labels for important relationships, because many Mermaid renderers draw those connectors as floating or visually detached.
-- When you need to show that a route table, policy, ACL, or shared control applies to a subnet group or container, anchor the edge to a real node inside that container or add a dedicated anchor node inside the container instead of connecting to the container itself.
-- Prefer fewer, shorter cross-diagram connectors when labels or arrows start landing far from their intended shapes. Split crowded diagrams or introduce local anchor nodes instead of stretching one edge across multiple containers.
-- Treat Mermaid edges that appear to stop short of the target, miss the target visually, or terminate ambiguously as correctness bugs that require a layout or structure change.
+- Keep connector labels background-transparent. Do not apply draw.io-style filled plates or semi-opaque boxes to Mermaid edge labels.
+- Connect edges to concrete nodes. Do not rely on edges targeting `subgraph` IDs or container labels; many renderers draw those as floating or detached.
+- Keep the source readable enough for a human to edit without rendering first.
 
-Read [references/mermaid.md](references/mermaid.md) when choosing diagram types or syntax patterns.
+Read [references/mermaid.md](references/mermaid.md) for diagram type selection, label safety rules, CLI validation, and rendering constraints.
 Start from [assets/mermaid-doc-template.md](assets/mermaid-doc-template.md) for new Markdown-hosted diagrams.
 
 ## Draw.io Rules
 
 - Emit valid `.drawio` XML with `compressed="false"` unless the file already uses compression.
 - Prefer a single page unless the user asks for multiple pages.
-- Use a consistent coordinate grid and leave reasonable spacing between shapes.
-- Use simple built-in shapes and edge styles before introducing more complex styling.
-- Treat raw-XML draw.io files as a strict schema. If the XML does not conform cleanly, the file is incorrect even if the structure looks close.
-- Keep labels in the XML as plain readable text; avoid unnecessary metadata.
-- Keep the XML manually editable; avoid noisy style churn unless a style change is part of the request.
+- Keep labels as plain readable text and keep the XML manually editable.
 - Prefer connectors with explicit `source` and `target` shape IDs over loose geometry-only lines.
-- When a connector must land on a specific shape, use concrete endpoints or stable entry/exit anchoring instead of relying on approximate placement.
-- Always set an explicit page background color for draw.io diagrams so text readability does not depend on the editor theme alone.
-- Use explicit dark or otherwise high-contrast connector stroke and arrow colors. Do not allow draw.io connectors or arrowheads to blend into the page background.
-- Only non-connector text may remain transparent, and only when it sits on a known readable page or shape surface.
-- When transparent labels are used in draw.io, require `Background Style = None`.
-- For source-edited transparent non-connector labels, encode that choice directly with `labelBackgroundColor=none;` when applicable.
-- When text sits over connectors, mixed fills, dense structure, or otherwise busy surfaces, do not leave the label fully transparent.
-- In those cases, keep the label at its intended semantic location and use a dedicated label vertex with a light neutral fill at roughly `70%` `fillOpacity` so the text reads clearly while the page and nearby constructs still show through.
-- For draw.io edge labels, branch labels, and connector-adjacent annotations, that dedicated semi-opaque label-vertex treatment is required. Do not leave them fully transparent and do not rely on the edge label background alone.
-- Connector-label text color must also contrast with the label fill and page background. Do not use white or near-white text on light connector-label fills.
-- For those dedicated label vertices, require `Background Style = None` so the label rendering path resolves against the page and local fill instead of the editor theme layer.
-- Do not rely on `labelBackgroundColor` plus `labelBackgroundOpacity` alone to create connector-label translucency; use an actual label vertex with explicit opacity styling.
-- Treat theme-dependent black label plates, black rectangles, or canvas-punch-through transparency as correctness bugs.
-- When an edge needs a text label, either:
-  - place the text in a small dedicated label vertex near the connector with an explicit neutral fill and opacity styling, or
-  - if the diagram is exceptionally simple, use edge-label rendering only when the rendered result is visibly semi-opaque and passes preview verification.
-- For dense diagrams, use dedicated label vertices rather than inline edge labels. When they need a fill, use a translucent neutral fill at roughly `70%` `fillOpacity`, keep text fully opaque, and avoid visible borders unless needed.
+- Always set an explicit page background color so text readability does not depend on the editor theme.
+- Use explicit dark or high-contrast connector stroke and arrow colors that contrast with the page background.
+- For edge labels, branch labels, and connector-adjacent annotations, use a dedicated label vertex with a light neutral fill at roughly `70%` `fillOpacity` and `Background Style = None`. Do not leave them fully transparent or rely on inline edge-label background styling alone.
+- Treat theme-dependent black label plates or canvas-punch-through transparency as correctness bugs.
 
 Start from [assets/blank.drawio](assets/blank.drawio) when creating a new draw.io file from scratch. Read [references/drawio.md](references/drawio.md) for the minimal structure and editing rules.
 
 ## Readability And Styling
 
-When the repository does not already enforce a conflicting diagram style, prefer a high-contrast presentation that remains readable in editors, rendered views, and diffs.
+When the repository does not enforce a conflicting style, use a high-contrast presentation: dark saturated fills with white text, a small set of semantic color families, visually distinct container outlines versus connector lines, and a legend when more than three semantic colors appear. All text must contrast with its immediate surface. Treat weak contrast as a correctness failure.
 
-- Use dark, saturated fills with white text for primary nodes.
-- Use darker strokes than fills so shapes remain distinct.
-- Reserve color families for semantic roles rather than decorative variation.
-- Use lighter tinted containers or section backgrounds when grouping related areas.
-- Make containers, section boxes, and grouping outlines visually distinct from connectors.
-- Prioritize visual differentiation between containment and flow in dense diagrams, even over decorative consistency.
-- Prefer container borders that are thicker, lighter, quieter, or differently colored than arrows so grouping structure does not read like another flow line.
-- Add a legend whenever the diagram uses more than three semantic colors.
-- Give every diagram a clear title and a short subtitle or context line explaining what it shows.
-- Use bold labels for normal nodes and containers; use regular-weight text only for code-like snippets or secondary detail.
-- Use solid arrows for required flows and dashed arrows or borders for optional, pluggable, or extensible relationships.
-- Avoid giving arrows and area boundaries the same line weight, dash pattern, and color in dense diagrams.
-- Avoid routing multiple meaningful lines along the same visual trajectory when they could be mistaken for one line.
-- All text must remain distinctly readable against its immediate background, fill, or local label surface.
-- Do not allow any text to blend into the page, a node fill, a container tint, or a local label treatment.
-- If text contrast is weak, restyle the text color or the local surface until the contrast is obvious.
-- Keep page or canvas width moderate so the diagram fits comfortably in common documentation views.
-- If containers and connectors still read as the same texture after styling, reduce density or split the diagram rather than accepting the ambiguity.
-- If two connectors or a connector and a boundary overlap for a meaningful stretch, reroute, offset, or split the diagram instead of accepting the overlap.
-
-Read [references/styling.md](references/styling.md) when applying a default visual language.
+Read [references/styling.md](references/styling.md) for the full palette strategy, connector treatment, labeling rules, and layout guidelines.
 
 ## Output Conventions
 

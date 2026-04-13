@@ -64,3 +64,7 @@ If you are unsure where a new instruction belongs, place it in the most specific
 - Softening hard requirements into optional guidance.
 - Adding noisy metadata, extra boilerplate, or speculative integrations.
 - Reorganizing the directory without a clear maintenance benefit.
+
+---
+
+This file mirrors [AGENTS.md](AGENTS.md). When updating maintenance instructions, keep both files in sync.
