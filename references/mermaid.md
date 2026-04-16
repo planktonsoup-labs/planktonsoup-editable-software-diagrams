@@ -61,6 +61,7 @@ erDiagram
 - If Markdown already contains surrounding headings and prose, edit only the relevant fenced block.
 - Save Mermaid source and Markdown files that host Mermaid as UTF-8 without BOM.
 - Preserve existing node IDs when editing an existing Mermaid diagram unless they are actively harmful.
+- Verify that every referenced node ID is declared exactly once in the diagram and that edges render to the intended node after any rename or refactor.
 - Avoid unsupported syntax guesses; choose a simpler Mermaid construct when uncertain.
 - Ensure all Mermaid text contrasts with the rendered surface behind it, including node labels, section labels, notes, and connector labels.
 - Do not accept Mermaid theme or class styling that makes text blend into the page, node fill, or local label surface.

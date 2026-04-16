@@ -109,6 +109,7 @@ Prefer this pattern over freehand line placement because explicit `source` and `
 - Do not leave stray text nodes inside `<diagram>` or `<root>`.
 - Prefer connectors with explicit `source` and `target` IDs.
 - After editing, preview the file and verify arrowheads visibly land on the intended shape edges.
+- After moving containers or grouped boxes, verify that routed connectors still attach to their intended targets.
 - When a connector targets a broad container and renders poorly, connect it to a nearby concrete node or add a small anchor node to make the relationship unambiguous.
 - Use explicit connector stroke and arrow colors that contrast with the page background. Do not leave connector styling at white or near-white values on light pages.
 - Always set an explicit page background color for new diagrams so readability does not depend on dark-mode or light-mode editor defaults.
