@@ -62,7 +62,7 @@ Priority order:
 
 ## Mermaid
 
-Emit valid Mermaid with a single top-level diagram declaration, short stable node IDs, and human-readable labels. Use the diagram family that matches the request. Keep labels concise and parser-safe. Connect edges to concrete nodes, not subgraph IDs. Keep connector labels background-transparent.
+Emit valid Mermaid with a single top-level diagram declaration, short stable node IDs, and human-readable labels. Use the diagram family that matches the request. Keep labels concise and parser-safe. Connect edges to concrete nodes, not subgraph IDs. Keep connector labels background-transparent. **Never use `\n` in labels — use `<br/>` for multiline labels or shorten to one line.**
 
 Read [references/mermaid.md](references/mermaid.md) for diagram type selection, label safety, CLI validation, and rendering constraints.
 Start from [assets/mermaid-doc-template.md](assets/mermaid-doc-template.md) for new Markdown-hosted diagrams.
