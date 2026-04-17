@@ -1,6 +1,6 @@
 # draw.io Reference
 
-Use draw.io when diagram needs canvas-style editing, manual positioning, or richer mixed layouts than Mermaid handles.
+Use when diagram needs canvas-style editing, manual positioning, or richer mixed layouts than Mermaid handles.
 
 ## Minimal File Structure
 
@@ -19,18 +19,18 @@ Prefer uncompressed XML:
 </mxfile>
 ```
 
-Always set page background color explicitly for new diagrams. Do not assume light-looking editor canvas behaves like white page in dark mode.
+Always set page bg color explicitly. No assume light editor canvas = white page in dark mode.
 
 ## Raw XML Requirements
 
 Treat raw-XML draw.io files as strict schema.
 
-- Save raw `.drawio` XML as UTF-8 without BOM.
+- UTF-8 no BOM.
 - `compressed="false"` for raw XML.
-- `<diagram>` must contain exactly one child: `<mxGraphModel>`.
-- No comments anywhere inside `<diagram>`.
-- No stray text nodes, unknown tags, or whitespace-only content inside `<diagram>` or `<root>` beyond normal XML formatting.
-- `<root>` must contain only `<mxCell>` elements.
+- `<diagram>` must have exactly one child: `<mxGraphModel>`.
+- No comments inside `<diagram>`.
+- No stray text nodes, unknown tags, whitespace-only content inside `<diagram>` or `<root>` beyond normal XML formatting.
+- `<root>` contains only `<mxCell>` elements.
 - Keep two base cells:
   - `<mxCell id="0" />`
   - `<mxCell id="1" parent="0" />`
@@ -38,13 +38,13 @@ Treat raw-XML draw.io files as strict schema.
 - No mixing raw XML with encoded fragments, partial encoding, or base64 payloads.
 - No XML declarations for raw files.
 
-draw.io shows `atob` decoding error for raw-XML file → treat as parser failure first, not encoding problem.
+draw.io shows `atob` decoding error for raw-XML file → parser failure first, not encoding problem.
 
 ## Editing Existing Encoded Files
 
 Projects may have `.drawio` files not stored as readable raw XML.
 
-- `compressed="true"` → `<diagram>` content is compressed/encoded payload, not directly editable.
+- `compressed="true"` → `<diagram>` content = compressed/encoded payload, not directly editable.
 - Some files need decode before safe source edit.
 - Maintenance: decode to raw XML first, inspect/edit real `mxGraphModel`, then decide keep format or normalize to `compressed="false"`.
 - No structural edits against compressed payload text directly.
@@ -54,19 +54,19 @@ When editing existing encoded file:
 1. Detect: raw XML or encoded/compressed?
 2. Encoded/compressed → decode to raw XML first.
 3. Structural edits against decoded `mxGraphModel`.
-4. Validate raw XML structure and rendering.
+4. Validate raw XML structure + rendering.
 5. Preserve original format only when project depends on it or user explicitly wants. Otherwise prefer `compressed="false"`.
 
-Cannot decode payload to inspectable raw XML → do not guess edits inside encoded content.
+Cannot decode payload → no guess edits inside encoded content.
 
 ## Common Shape Pattern
 
-Each visible shape is usually an `mxCell` with:
+Each visible shape = `mxCell` with:
 
-- `vertex="1"` for a node
-- `edge="1"` for a connector
+- `vertex="1"` for node
+- `edge="1"` for connector
 - `parent="1"` on normal page content
-- An `mxGeometry` child
+- `mxGeometry` child
 
 Typical rectangle node:
 
@@ -84,25 +84,25 @@ Typical connector:
 </mxCell>
 ```
 
-Prefer over freehand line placement — explicit `source`/`target` IDs survive later layout edits more reliably.
+Prefer explicit `source`/`target` IDs — survive later layout edits.
 
 ## Layout Heuristics
 
 - Primary flow left-to-right or top-to-bottom consistently.
-- Align sibling nodes to common x or y coordinates.
+- Align sibling nodes to common x or y coords.
 - Leave whitespace for later edits.
 - Containers sparingly; group only when grouping conveys meaning.
-- Use containers/section backgrounds for environments, trust zones, bounded contexts, infrastructure layers when distinctions matter.
+- Use containers/section bgs for environments, trust zones, bounded contexts, infra layers when distinctions matter.
 
 ## Editing Rules
 
-- Keep IDs stable if file already exists.
-- Add only cells needed for requested change.
-- Readable numeric coordinates on loose grid (10 or 20px).
+- Keep IDs stable in existing files.
+- Add only cells needed for req change.
+- Readable numeric coords on loose grid (10 or 20px).
 - Prefer simple built-in styles: `rounded=1`, `whiteSpace=wrap`, `html=1`, `endArrow=block`.
-- No compressed payloads for new files unless compatibility requires.
-- One page unless user explicitly asks more.
-- Preserve existing page ID and root structure when editing.
+- No compressed payloads for new files unless compat requires.
+- One page unless user asks more.
+- Preserve existing page ID + root structure when editing.
 - Hand-editable XML over tool-generated churn.
 - No XML comments inside `<diagram>`, `<mxGraphModel>`, or `<root>`.
 - No non-`mxCell` elements inside `<root>`.
@@ -110,38 +110,38 @@ Prefer over freehand line placement — explicit `source`/`target` IDs survive l
 - Prefer connectors with explicit `source`/`target` IDs.
 - After edit: preview, verify arrowheads visibly land on intended shape edges.
 - After moving containers/groups: verify routed connectors still attach to intended targets.
-- Connector targets broad container and renders poorly → connect to nearby concrete node or add small anchor node.
-- Explicit connector stroke/arrow colors contrasting with page background. No white/near-white connector styling on light pages.
-- Always set explicit page background color for new diagrams. No relying on dark/light editor defaults.
-- All draw.io text must contrast with local surface: node text, container titles, notes, legends, connector labels.
+- Connector targets broad container + renders poorly → connect to nearby concrete node or add small anchor node.
+- Explicit connector stroke/arrow colors contrasting with page bg. No white/near-white connector styling on light pages.
+- Always set explicit page bg color for new diagrams. No rely on dark/light editor defaults.
+- All draw.io text contrasts with local surface: node text, container titles, notes, legends, connector labels.
 - No white/near-white text on light areas/fills/labels. No dark text on dark fills.
-- Transparent labels: only for non-connector text on known page background or inside filled shape with sufficient contrast.
-- Transparent labels → set `Background Style = None` so draw.io uses SVG/text fallback instead of theme-dependent HTML label layer.
-- Source-level rendering rule (not just styling): `Background Style = None` changes label rendering path so transparent text resolves against page not editor canvas.
-- Hand-editing XML for transparent non-connector labels → set `labelBackgroundColor=none;` so label reveals page background instead of theme-colored plate.
-- Label crosses connectors, mixed fills, or busy areas → do not rely on transparency alone.
-- Those cases: keep label near connector segment/branch it explains, use dedicated label vertex with light neutral fill ~`70%` `fillOpacity` so page/nearby constructs still show through.
+- Transparent labels: only for non-connector text on known page bg or inside filled shape with sufficient contrast.
+- Transparent labels → set `Background Style = None` → draw.io uses SVG/text fallback instead of theme-dependent HTML label layer.
+- Source-level rendering rule: `Background Style = None` changes label rendering path → transparent text resolves against page not editor canvas.
+- Hand-editing XML for transparent non-connector labels → set `labelBackgroundColor=none;` → label reveals page bg instead of theme-colored plate.
+- Label crosses connectors/mixed fills/busy areas → no rely on transparency alone.
+- Those cases: keep label near connector segment/branch it explains, use dedicated label vertex with light neutral fill ~70% `fillOpacity` so page/nearby constructs still show through.
 - Edge labels, branch labels (`Yes`/`No`), connector-adjacent annotations → dedicated semi-opaque label-vertex treatment **required** even when underlying page otherwise readable.
 - Connector-label text color must contrast with label fill. No white/near-white text on light neutral label fills.
-- Do not assume `labelBackgroundColor` with nominal opacity renders translucently for connector labels. Use separate label vertex with explicit `fillOpacity=70`, `opacity=100`, `textOpacity=100`, `Background Style = None`. Remove border unless it carries meaning.
-- Dark diagrams.net editor: under-specified labels fall back to black plates, black rectangles, canvas-punch-through. Fix: set page background first → `Background Style = None` → adjust label styling only if needed.
+- No assume `labelBackgroundColor` with nominal opacity renders translucently for connector labels. Use separate label vertex with explicit `fillOpacity=70`, `opacity=100`, `textOpacity=100`, `Background Style = None`. Remove border unless it carries meaning.
+- Dark diagrams.net editor: under-specified labels → black plates, black rects, canvas-punch-through. Fix: set page bg first → `Background Style = None` → adjust label styling only if needed.
 - Edge label patterns (pick one):
   - Separate small label vertex near connector: `fillOpacity=70`, readable text color, `Background Style = None`, little/no border
-  - Inline edge label only when preview confirms label background is actually translucent (not just light-colored or opaque)
-- Branch labels (`Yes`/`No`, success/failure, protocol annotations): keep anchored at branch, add local semi-opaque background there instead of moving to quieter location.
+  - Inline edge label only when preview confirms label bg is actually translucent (not just light-colored or opaque)
+- Branch labels (`Yes`/`No`, success/failure, protocol annotations): anchored at branch, add local semi-opaque bg there instead of moving to quieter location.
 - Dense diagrams → use separate label vertex pattern unless simpler inline label passes all required render checks.
 
 ## XML Safety Checklist
 
-Before raw-XML `.drawio` file complete, verify:
+Before raw-XML `.drawio` file complete:
 
-- UTF-8 without BOM
+- UTF-8 no BOM
 - No comments inside `<diagram>`
 - `<diagram>` contains only `<mxGraphModel>`
 - `<root>` contains only `<mxCell>`
-- Connector strokes/arrowheads visibly contrast with page background
+- Connector strokes/arrowheads visibly contrast with page bg
 - All text visibly contrasts with immediate page, fill, or local label surface
-- Connector-label text contrasts with both label fill and page background
+- Connector-label text contrasts with label fill + page bg
 - All HTML in `value=` attributes escaped
 - No stray text nodes or unknown tags
 - Every `id` unique
@@ -154,10 +154,10 @@ Any fail → fix XML structure before troubleshooting rendering.
 ## Local CLI Validation
 
 - Check for local `drawio`, `draw.io`, or `diagrams.net` executable before relying on manual inspection.
-- Probe cross-platform: `PATH` → package-manager shims → OS app install locations.
+- Probe cross-platform: `PATH` → pkg-manager shims → OS app install locations.
 - Windows fallbacks: Scoop shims, Chocolatey `bin`, `%AppData%\\npm` wrappers, explicit desktop-app install folders.
 - macOS fallbacks: `/opt/homebrew/bin`, `/usr/local/bin`, `/Applications/draw.io.app`, `/Applications/diagrams.net.app`, `~/Applications`.
 - Linux fallbacks: `~/.local/bin`, `/usr/local/bin`, `/usr/bin`, `/snap/bin`, Flatpak exports, AppImage paths.
-- Available → inspect `--help` when needed; use narrowest local export/render command that validates the `.drawio` file.
+- Available → inspect `--help` when needed; use narrowest local export/render cmd that validates the `.drawio` file.
 - Validate exact final file, not reconstructed copy.
-- No local draw.io CLI → fall back to diagrams.net preview + manual XML review of changed connectors, labels, page settings; note CLI unavailable.
+- No local draw.io CLI → fallback to diagrams.net preview + manual XML review of changed connectors, labels, page settings; note CLI unavailable.
