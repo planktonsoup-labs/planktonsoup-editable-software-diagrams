@@ -185,6 +185,22 @@
   },
   "active": "37f66c47e511a5e7",
   "lastOpenFiles": [
+    "templates/README.md",
+    "templates",
+    "prompts/README.md",
+    "prompts",
+    "examples/invocations/cursor.md",
+    "examples/invocations/copilot-chat.md",
+    "examples/invocations/codex.md",
+    "examples/invocations/claude-code.md",
+    "examples/README.md",
+    "examples/invocations",
+    "examples",
+    "adapters/cursor.md",
+    "adapters/copilot.md",
+    "adapters/codex.md",
+    "adapters/claude-code.md",
+    "adapters",
     "AGENTS.md",
     "SKILL.md"
   ]

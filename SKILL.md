@@ -65,7 +65,7 @@ Priority order:
 
 ## Mermaid
 
-Emit valid Mermaid with a single top-level diagram declaration, short stable node IDs, and human-readable labels. Use the diagram family that matches the request. Keep labels concise and parser-safe. Connect edges to concrete nodes, not subgraph IDs. Keep connector labels background-transparent.
+Emit valid Mermaid with a single top-level diagram declaration, short stable node IDs, and human-readable labels. Use the diagram family that matches the request. Keep labels concise and parser-safe. Connect edges to concrete nodes, not subgraph IDs. Keep connector labels background-transparent. **Never use `\n` in labels — use `<br/>` for multiline labels or shorten to one line.**
 
 Label line-break rule:
 
