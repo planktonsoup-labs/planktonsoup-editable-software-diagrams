@@ -8,6 +8,9 @@ license: See LICENSE
 
 Create software-development diagrams in text-first formats that work well in agentic workflows. Prefer Mermaid for concise source-controlled diagrams; prefer draw.io when layout, positioning, or mixed visual elements matter.
 
+This file is the runtime skill contract used when agents execute this skill.
+Repository maintenance and governance instructions belong in `AGENTS.md`, not here.
+
 ## Scope
 
 Create or edit:
