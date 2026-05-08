@@ -11,6 +11,106 @@ Supported outputs and use cases:
 - AI-assisted architecture documentation that stays aligned with real systems
 - source-controlled diagrams for long-term maintainability
 
+## How This Skill Works
+
+### Foundation: Human and Agent Consumption Flow
+
+```mermaid
+flowchart TB
+	user[Developer or AI Agent User]
+
+	subgraph agents[AI Coding Agents]
+		claude[Claude Code]
+		codex[Codex]
+		copilot[GitHub Copilot]
+		cursor[Cursor]
+	end
+
+	subgraph adapters[Compatibility Adapters]
+		claudeMd[CLAUDE.md]
+		copilotMd[.github/copilot-instructions.md]
+		cursorRules[.cursor/rules]
+		codexMd[adapters/codex.md]
+	end
+
+	agentsDoc[AGENTS.md<br/>Canonical Guidance]
+
+	subgraph resources[Reusable Resources]
+		prompts[/prompts]
+		templates[/templates]
+		examples[/examples]
+		references[/references]
+	end
+
+	subgraph outputs[Editable Outputs]
+		mermaidOut[Mermaid]
+		drawioOut[draw.io]
+		c4Out[C4 Architecture]
+		docsOut[Architecture Documentation]
+	end
+
+	user --> claude
+	user --> codex
+	user --> copilot
+	user --> cursor
+
+	claude --> claudeMd
+	codex --> codexMd
+	copilot --> copilotMd
+	cursor --> cursorRules
+
+	claudeMd --> agentsDoc
+	codexMd --> agentsDoc
+	copilotMd --> agentsDoc
+	cursorRules --> agentsDoc
+
+	agentsDoc --> prompts
+	agentsDoc --> templates
+	agentsDoc --> examples
+	agentsDoc --> references
+
+	prompts --> mermaidOut
+	templates --> mermaidOut
+	templates --> drawioOut
+	examples --> c4Out
+	references --> docsOut
+
+	mermaidOut --> docsOut
+	drawioOut --> docsOut
+	c4Out --> docsOut
+```
+
+### Prompt to Generation to Maintenance Lifecycle
+
+```mermaid
+flowchart LR
+	request[Architecture Request]
+	context[Read AGENTS.md and References]
+	generate[Generate Mermaid or draw.io Source]
+	review[Human Review and Diagram Validation]
+	commit[Commit Source-Controlled Diagram]
+	evolve[Update with System Changes]
+
+	request --> context --> generate --> review --> commit --> evolve
+	evolve --> context
+```
+
+### Diagrams-as-Code in Git Workflow
+
+```mermaid
+flowchart LR
+	branch[Feature Branch]
+	prompt[Prompt Agent with Architecture Task]
+	edit[Edit Mermaid or draw.io Files]
+	preview[Preview Rendered Diagram]
+	pr[Open Pull Request]
+	feedback[Review Feedback]
+	merge[Merge to Main]
+
+	branch --> prompt --> edit --> preview --> pr --> feedback --> merge
+	feedback --> edit
+```
+
 ## Works With
 
 This repository includes compatibility adapters for:
@@ -27,6 +127,42 @@ Included adapter surfaces:
 - [.github/copilot-instructions.md](.github/copilot-instructions.md)
 - [.cursor/rules/diagrams.mdc](.cursor/rules/diagrams.mdc)
 - [adapters/codex.md](adapters/codex.md)
+
+## Skill Installation Guidance
+
+Use this section to install this specific diagram skill (`planktonsoup-editable-software-diagrams`) for each supported agent ecosystem.
+
+Brief evergreen install points for this skill:
+
+- Claude Code: install this repository as reusable project guidance using Claude Code's official project setup flow.
+- GitHub Copilot: install this repository as custom repository guidance using Copilot's official custom-instructions flow.
+- Cursor: install this repository as project rule/context guidance using Cursor's official rules flow.
+- Codex workflows: install this repository as reusable project context using OpenAI platform documentation.
+- All agents: install this repository so skill behavior is sourced from [AGENTS.md](AGENTS.md), with [SKILL.md](SKILL.md) and [agents/openai.yaml](agents/openai.yaml) as skill-spec fallback where supported.
+
+For best results, follow each ecosystem's official installation path and bind this repository as the skill source.
+
+- Claude Code install path for this skill: <https://docs.anthropic.com/en/docs/claude-code>
+- GitHub Copilot install path for this skill: <https://docs.github.com/en/copilot/customizing-copilot/adding-repository-custom-instructions-for-github-copilot>
+- Cursor install path for this skill: <https://docs.cursor.com/context/rules>
+- Codex/OpenAI install path for this skill: <https://platform.openai.com/docs>
+- VS Code AI workflow baseline: <https://code.visualstudio.com/docs/copilot/overview>
+
+Recommended installation order for this skill:
+
+1. Use the agent-specific installation path from the official docs above.
+2. Bind this repository as the skill source in that ecosystem.
+3. Validate the skill by running a simple architecture-diagram prompt.
+
+Fallback installation path for this skill (agent skills spec):
+
+If a tool does not support a dedicated adapter format, use this repository's skill spec files directly:
+
+- [AGENTS.md](AGENTS.md) as canonical operational guidance
+- [SKILL.md](SKILL.md) as the behavior contract
+- [agents/openai.yaml](agents/openai.yaml) as runtime metadata where supported
+
+This fallback path ensures consistent inclusion even when an agent lacks first-class adapter support.
 
 ## Prompt to Output Example
 
