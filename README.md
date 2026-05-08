@@ -134,17 +134,17 @@ Use this section to install this specific diagram skill (`planktonsoup-editable-
 
 Brief evergreen install points for this skill:
 
-- Claude Code: install this repository as reusable project guidance using Claude Code's official project setup flow.
-- GitHub Copilot: install this repository as custom repository guidance using Copilot's official custom-instructions flow.
-- Cursor: install this repository as project rule/context guidance using Cursor's official rules flow.
-- Codex workflows: install this repository as reusable project context using OpenAI platform documentation.
-- All agents: install this repository so skill behavior is sourced from [AGENTS.md](AGENTS.md), with [SKILL.md](SKILL.md) and [agents/openai.yaml](agents/openai.yaml) as skill-spec fallback where supported.
+- Claude Code: use Claude's native skill discovery paths. Project location: `.claude/skills/<skill-name>/SKILL.md`. User fallback: `~/.claude/skills/<skill-name>/SKILL.md`. For shared project guidance, Claude also reads `./CLAUDE.md` or `./.claude/CLAUDE.md`, with user fallback `~/.claude/CLAUDE.md`.
+- GitHub Copilot: use repository custom instructions at [.github/copilot-instructions.md](.github/copilot-instructions.md). Copilot also supports agent instructions via nearest [AGENTS.md](AGENTS.md) and path-specific instructions under `.github/instructions/*.instructions.md`.
+- Cursor: use project rules under `.cursor/rules/` (for example [.cursor/rules/diagrams.mdc](.cursor/rules/diagrams.mdc)). User fallback is Cursor User Rules in settings (global), not a documented filesystem path.
+- Codex workflows: no stable, official local skill-folder discovery path is documented in OpenAI API docs; bind this repository as project context and use the fallback skill-spec files below.
+- All agents fallback: source behavior from [AGENTS.md](AGENTS.md), [SKILL.md](SKILL.md), and [agents/openai.yaml](agents/openai.yaml) when native adapter/skill discovery is unavailable.
 
 For best results, follow each ecosystem's official installation path and bind this repository as the skill source.
 
-- Claude Code install path for this skill: <https://docs.anthropic.com/en/docs/claude-code>
+- Claude Code install path for this skill: <https://code.claude.com/docs/en/skills> and <https://code.claude.com/docs/en/memory>
 - GitHub Copilot install path for this skill: <https://docs.github.com/en/copilot/customizing-copilot/adding-repository-custom-instructions-for-github-copilot>
-- Cursor install path for this skill: <https://docs.cursor.com/context/rules>
+- Cursor install path for this skill: <https://cursor.com/docs/rules>
 - Codex/OpenAI install path for this skill: <https://platform.openai.com/docs>
 - VS Code AI workflow baseline: <https://code.visualstudio.com/docs/copilot/overview>
 
