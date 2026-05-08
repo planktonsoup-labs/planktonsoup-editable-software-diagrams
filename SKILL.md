@@ -64,6 +64,11 @@ Priority order:
 
 Emit valid Mermaid with a single top-level diagram declaration, short stable node IDs, and human-readable labels. Use the diagram family that matches the request. Keep labels concise and parser-safe. Connect edges to concrete nodes, not subgraph IDs. Keep connector labels background-transparent.
 
+Label line-break rule:
+
+- Never emit literal `\n` inside Mermaid labels.
+- For visual label breaks, use `<br/>` where supported, or rewrite to a shorter single-line label.
+
 Read [references/mermaid.md](references/mermaid.md) for diagram type selection, label safety, CLI validation, and rendering constraints.
 Start from [assets/mermaid-doc-template.md](assets/mermaid-doc-template.md) for new Markdown-hosted diagrams.
 
@@ -112,6 +117,8 @@ Before finalizing, verify:
 
 - [references/mermaid.md](references/mermaid.md) — label safety, node ID integrity, `mmdc` CLI validation
 - [references/drawio.md](references/drawio.md) — XML safety checklist, CLI validation, connector/label rendering
+
+For Mermaid outputs, treat any literal `\n` token in labels as a correctness failure that must be rewritten before completion.
 
 Use local CLI tools (`mmdc`, `drawio`) when available. Probe for them cross-platform before falling back to preview or manual review.
 

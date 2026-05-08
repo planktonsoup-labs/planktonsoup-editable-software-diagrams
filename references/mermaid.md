@@ -66,6 +66,7 @@ erDiagram
 - Ensure all Mermaid text contrasts with the rendered surface behind it, including node labels, section labels, notes, and connector labels.
 - Do not accept Mermaid theme or class styling that makes text blend into the page, node fill, or local label surface.
 - Treat label text as part of syntax validation, not just content. Edge labels and node labels should use plain language rather than code-like text with embedded double quotes, escaped quotes, or dense punctuation.
+- Use actual newline characters to separate Mermaid statements; do not serialize line breaks as the literal two-character sequence `\n`.
 - Do not treat `\n` as a portable Mermaid line-break mechanism. If a label needs multiple visual lines, use Mermaid-supported line-break syntax for that diagram family, such as `<br/>` where supported, or shorten and split the wording.
 - Keep Mermaid connector labels visually plain and background-transparent. Do not emulate Draw.io label backfills, filled label plates, or semi-opaque label boxes for Mermaid edge labels.
 - When `mmdc` is installed locally, use it as the default validation path and require a successful render from the final Mermaid source before considering the edit complete.
@@ -90,7 +91,9 @@ erDiagram
 - If you need to show exact code or string literals such as `Add("apple")`, put them in the surrounding Markdown instead of inside the Mermaid label.
 - If you need a visual line break inside a Mermaid label, prefer `<br/>` when the chosen Mermaid diagram family supports it. If not, rewrite the label into a shorter single-line phrase and move detail into surrounding prose.
 - Avoid escaped quotes such as `\"apple\"` inside Mermaid labels. Some renderers reject them even when the surrounding diagram structure is otherwise valid.
-- Avoid literal `\n` in Mermaid labels unless the target Mermaid syntax for that exact construct explicitly interprets it as a line break and the rendered preview confirms it.
+- Treat literal `\n` in Mermaid labels as invalid by default and rewrite before completion.
+- Preferred fix for label text like `Load existing DonationIntent\nand return current result`: replace `\n` with `<br/>` when supported, otherwise shorten to a single line and move detail to nearby prose.
+- During final validation, scan Mermaid labels for literal `\n` tokens and treat them as errors.
 - When a parser error points near a label, simplify the label first, then re-check the diagram before making broader changes.
 
 ### Safer Example

@@ -1,1 +1,1 @@
-Always read and adhere to the instructions in the root AGENTS.md file.
+../AGENTS.md

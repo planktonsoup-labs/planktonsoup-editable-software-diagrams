@@ -1,0 +1,10 @@
+---
+description: Editable software diagram conventions
+alwaysApply: false
+---
+
+This repository provides conventions for generating editable software diagrams.
+
+Primary guidance:
+
+- AGENTS.md
