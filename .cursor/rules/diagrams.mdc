@@ -7,4 +7,5 @@ This repository provides conventions for generating editable software diagrams.
 
 Primary guidance:
 
-- AGENTS.md
+- SKILL.md (runtime behavior)
+- AGENTS.md (maintainer governance)

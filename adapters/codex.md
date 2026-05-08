@@ -4,11 +4,12 @@ This repository provides reusable AI-agent guidance for generating and maintaini
 
 Canonical documentation:
 
-- AGENTS.md
+- SKILL.md (runtime behavior)
+- AGENTS.md (maintainer governance)
 
 Recommended workflow:
 
-1. Read AGENTS.md.
+1. Read SKILL.md.
 2. Select an example or template.
 3. Generate editable source-based diagrams.
 4. Preserve semantic structure and maintainability.

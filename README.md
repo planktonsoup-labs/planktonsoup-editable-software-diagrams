@@ -33,13 +33,14 @@ flowchart TB
 		codexMd[adapters/codex.md]
 	end
 
-	agentsDoc[AGENTS.md<br/>Canonical Guidance]
+	runtimeDoc[SKILL.md<br/>Runtime Contract]
+	governanceDoc[AGENTS.md<br/>Maintainer Governance]
 
 	subgraph resources[Reusable Resources]
-		prompts[/prompts]
-		templates[/templates]
-		examples[/examples]
-		references[/references]
+		prompts[prompts]
+		templates[templates]
+		examples[examples]
+		references[references]
 	end
 
 	subgraph outputs[Editable Outputs]
@@ -59,15 +60,17 @@ flowchart TB
 	copilot --> copilotMd
 	cursor --> cursorRules
 
-	claudeMd --> agentsDoc
-	codexMd --> agentsDoc
-	copilotMd --> agentsDoc
-	cursorRules --> agentsDoc
+	claudeMd --> runtimeDoc
+	codexMd --> runtimeDoc
+	copilotMd --> runtimeDoc
+	cursorRules --> runtimeDoc
 
-	agentsDoc --> prompts
-	agentsDoc --> templates
-	agentsDoc --> examples
-	agentsDoc --> references
+	runtimeDoc -. maintainer policy .-> governanceDoc
+
+	runtimeDoc --> prompts
+	runtimeDoc --> templates
+	runtimeDoc --> examples
+	runtimeDoc --> references
 
 	prompts --> mermaidOut
 	templates --> mermaidOut
@@ -85,7 +88,7 @@ flowchart TB
 ```mermaid
 flowchart LR
 	request[Architecture Request]
-	context[Read AGENTS.md and References]
+	context[Read SKILL.md and References]
 	generate[Generate Mermaid or draw.io Source]
 	review[Human Review and Diagram Validation]
 	commit[Commit Source-Controlled Diagram]
@@ -128,6 +131,17 @@ Included adapter surfaces:
 - [.cursor/rules/diagrams.mdc](.cursor/rules/diagrams.mdc)
 - [adapters/codex.md](adapters/codex.md)
 
+## Boundary and Source of Truth
+
+Use this split consistently when reading or extending the repository:
+
+- [README.md](README.md): onboarding, discoverability, quick-start usage, and navigation.
+- [SKILL.md](SKILL.md): runtime behavior contract consumed by agents while generating or editing diagrams.
+- [AGENTS.md](AGENTS.md): maintainer governance and repository operation rules.
+- Adapter surfaces (for example [CLAUDE.md](CLAUDE.md), [.github/copilot-instructions.md](.github/copilot-instructions.md), [.cursor/rules/diagrams.mdc](.cursor/rules/diagrams.mdc), [adapters/codex.md](adapters/codex.md)): lightweight compatibility entrypoints that delegate to canonical files above.
+
+README should describe outcomes and usage, not redefine runtime policy.
+
 ## Skill Installation Guidance
 
 Use this section to install this specific diagram skill (`planktonsoup-editable-software-diagrams`) for each supported agent ecosystem.
@@ -138,7 +152,7 @@ Brief evergreen install points for this skill:
 - GitHub Copilot: use repository custom instructions at [.github/copilot-instructions.md](.github/copilot-instructions.md). Copilot also supports agent instructions via nearest [AGENTS.md](AGENTS.md) and path-specific instructions under `.github/instructions/*.instructions.md`.
 - Cursor: use project rules under `.cursor/rules/` (for example [.cursor/rules/diagrams.mdc](.cursor/rules/diagrams.mdc)). User fallback is Cursor User Rules in settings (global), not a documented filesystem path.
 - Codex workflows: no stable, official local skill-folder discovery path is documented in OpenAI API docs; bind this repository as project context and use the fallback skill-spec files below.
-- All agents fallback: source behavior from [AGENTS.md](AGENTS.md), [SKILL.md](SKILL.md), and [agents/openai.yaml](agents/openai.yaml) when native adapter/skill discovery is unavailable.
+- All agents fallback: source runtime behavior from [SKILL.md](SKILL.md) and runtime metadata from [agents/openai.yaml](agents/openai.yaml) when native adapter/skill discovery is unavailable. Use [AGENTS.md](AGENTS.md) for maintainer governance.
 
 For best results, follow each ecosystem's official installation path and bind this repository as the skill source.
 
@@ -158,8 +172,8 @@ Fallback installation path for this skill (agent skills spec):
 
 If a tool does not support a dedicated adapter format, use this repository's skill spec files directly:
 
-- [AGENTS.md](AGENTS.md) as canonical operational guidance
-- [SKILL.md](SKILL.md) as the behavior contract
+- [SKILL.md](SKILL.md) as the canonical runtime behavior contract
+- [AGENTS.md](AGENTS.md) as maintainer governance and maintenance policy
 - [agents/openai.yaml](agents/openai.yaml) as runtime metadata where supported
 
 This fallback path ensures consistent inclusion even when an agent lacks first-class adapter support.
@@ -211,33 +225,33 @@ This repository solves that by providing reusable conventions for:
 
 ### Claude Code
 
-Use this repository as diagram conventions context. Read [AGENTS.md](AGENTS.md) and [SKILL.md](SKILL.md), then generate or edit Mermaid or draw.io architecture diagrams.
+Use this repository as diagram conventions context. Read [SKILL.md](SKILL.md) for runtime behavior and [AGENTS.md](AGENTS.md) for maintainer policy, then generate or edit Mermaid or draw.io architecture diagrams.
 
 Expected output: editable diagram source plus concise architecture documentation.
 
 ### Cursor
 
-Use [.cursor/rules/diagrams.mdc](.cursor/rules/diagrams.mdc) as the compatibility entrypoint, then apply canonical guidance from [AGENTS.md](AGENTS.md).
+Use [.cursor/rules/diagrams.mdc](.cursor/rules/diagrams.mdc) as the compatibility entrypoint, then apply runtime guidance from [SKILL.md](SKILL.md).
 
 Expected output: maintainable Mermaid or draw.io files that remain source-control friendly.
 
 ### GitHub Copilot Chat
 
-Reference [.github/copilot-instructions.md](.github/copilot-instructions.md), then follow [AGENTS.md](AGENTS.md) and [SKILL.md](SKILL.md) to produce editable architecture diagrams.
+Reference [.github/copilot-instructions.md](.github/copilot-instructions.md), then follow [SKILL.md](SKILL.md) for runtime behavior and [AGENTS.md](AGENTS.md) for maintainer policy.
 
 Expected output: diagrams-as-code artifacts suitable for PR review and iteration.
 
 ### Codex Workflows
 
-Start with [adapters/codex.md](adapters/codex.md), then use [AGENTS.md](AGENTS.md), [references/mermaid.md](references/mermaid.md), and [references/drawio.md](references/drawio.md).
+Start with [adapters/codex.md](adapters/codex.md), then use [SKILL.md](SKILL.md), [references/mermaid.md](references/mermaid.md), and [references/drawio.md](references/drawio.md).
 
 Expected output: architecture-focused Mermaid or draw.io sources optimized for long-term maintenance.
 
 ## For Agent Tools
 
-Canonical operational guidance is in [AGENTS.md](AGENTS.md).
+Canonical runtime behavior is in [SKILL.md](SKILL.md). Maintainer governance is in [AGENTS.md](AGENTS.md).
 
-Adapter files are intentionally lightweight compatibility entrypoints so guidance stays consistent across agent ecosystems.
+Adapter files are intentionally lightweight compatibility entrypoints and should not redefine runtime or governance rules.
 
 ## Repository Structure
 

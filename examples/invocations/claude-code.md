@@ -6,7 +6,7 @@ Use the skill from:
 
 Read:
 
-- AGENTS.md
+- SKILL.md
 - templates/aws-saas-platform.md (if present)
 
 Generate:
