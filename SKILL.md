@@ -31,7 +31,7 @@ Do not use PlantUML, Excalidraw, SVG, PNG, Visio, or image-generation unless the
 5. If the diagram type or notation is unclear, research the common convention before inventing a structure.
 6. Choose the simplest editable format that preserves intent when no format is specified.
 7. Produce diagram source directly — do not describe without creating unless concepts-only is requested.
-8. Validate the rendered structure, not just text syntax. If a required rule fails, the diagram is not complete.
+8. Validate parser status and rendered structure, not just text syntax. If a required rule fails, the diagram is not complete.
 9. Keep output diff-friendly.
 
 ## Non-Negotiable Rules
@@ -108,6 +108,8 @@ Before finalizing, verify:
 
 **Cross-format:**
 
+- Zero parser/lexer/validation errors for every created or edited diagram source.
+- For Markdown-hosted Mermaid, validate every edited fenced diagram block, not just one sample block.
 - Every edge starts and ends on an actual rendered node or shape.
 - Arrowheads visibly touch intended targets in preview.
 - All text contrasts with its immediate surface.
@@ -115,6 +117,7 @@ Before finalizing, verify:
 - Containers are visually distinct from connectors.
 - If the diagram is too crowded to verify clearly, simplify or split it.
 - If preview reveals detached connectors, mis-anchored labels, or ambiguous targets — fix before completing.
+- If any preview, renderer, or validator reports a parse/render error, fix the source and re-validate before completion.
 
 **Format-specific validation** is defined in each reference:
 
@@ -124,6 +127,7 @@ Before finalizing, verify:
 For Mermaid outputs, treat any literal `\n` token in labels as a correctness failure that must be rewritten before completion.
 
 Use local CLI tools (`mmdc`, `drawio`) when available. Probe for them cross-platform before falling back to preview or manual review.
+Do not mark the task complete while any parse/render/load error remains unresolved.
 
 ## Request Defaults
 

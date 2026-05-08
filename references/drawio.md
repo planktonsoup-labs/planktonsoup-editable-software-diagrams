@@ -39,6 +39,7 @@ Treat Form B raw-XML draw.io files as a strict schema.
 - Avoid XML declarations for these raw files.
 
 If draw.io shows an `atob` decoding error for a raw-XML file, treat that as a parser failure first, not as an encoding problem.
+Treat any draw.io load, decode, or render error as a blocking validation failure; fix and re-validate before completion.
 
 ## Editing Existing Encoded Files
 

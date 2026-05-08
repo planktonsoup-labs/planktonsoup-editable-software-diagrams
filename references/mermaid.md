@@ -61,6 +61,7 @@ erDiagram
 - If Markdown already contains surrounding headings and prose, edit only the relevant fenced block.
 - Save Mermaid source and Markdown files that host Mermaid as UTF-8 without BOM.
 - Preserve existing node IDs when editing an existing Mermaid diagram unless they are actively harmful.
+- Treat Mermaid parser or lexer errors as blocking failures. Resolve them before considering the diagram complete.
 - Verify that every referenced node ID is declared exactly once in the diagram and that edges render to the intended node after any rename or refactor.
 - Avoid unsupported syntax guesses; choose a simpler Mermaid construct when uncertain.
 - Ensure all Mermaid text contrasts with the rendered surface behind it, including node labels, section labels, notes, and connector labels.
@@ -83,6 +84,7 @@ erDiagram
 - On Linux, common fallback locations include `~/.local/bin`, `/usr/local/bin`, `/usr/bin`, `/snap/bin`, and AppImage-style install paths.
 - If the diagram is already a standalone `.mmd`, render that file directly.
 - If Mermaid is embedded in Markdown, extract the final fenced block to a temporary `.mmd` file and render that temporary file so the validation matches the exact checked-in source.
+- If multiple Mermaid fenced blocks were edited, validate each edited block.
 - If `mmdc` is not installed, fall back to a Mermaid-compatible preview or to manual structural validation, and note that CLI render validation was unavailable. Do not skip validation.
 
 ## Label Safety
