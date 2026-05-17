@@ -19,5 +19,7 @@ flowchart TD
 - Keep terminology aligned with the codebase.
 - Keep Mermaid labels parser-safe. Prefer plain phrases over embedded quoted code examples.
 - Do not use literal `\n` in Mermaid labels; use `<br/>` for visual line breaks when supported.
+- For architecture overviews that must render in GitHub, use `flowchart` and avoid `architecture-beta`.
+- Avoid renderer-sensitive Mermaid features unless required: `%%{init: ...}%%`, edge IDs, and animation syntax.
 - Call out notable boundaries, assumptions, or optional flows here.
 - Link to related diagrams or design notes when useful.

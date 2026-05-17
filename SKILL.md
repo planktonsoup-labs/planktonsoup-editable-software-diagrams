@@ -67,6 +67,13 @@ Priority order:
 
 Emit valid Mermaid with a single top-level diagram declaration, short stable node IDs, and human-readable labels. Use the diagram family that matches the request. Keep labels concise and parser-safe. Connect edges to concrete nodes, not subgraph IDs. Keep connector labels background-transparent. **Never use `\n` in labels — use `<br/>` for multiline labels or shorten to one line.**
 
+Mermaid renderer compatibility profile (required by default):
+
+- Target broad renderer support first, especially GitHub Markdown rendering.
+- For architecture and system-overview diagrams, use `flowchart`, not `architecture-beta`.
+- Do not use Mermaid experimental or unevenly supported diagram families (`architecture-beta`, `c4`, `packet`, `block`, `sankey`, `xyChart`, `quadrantChart`, `requirement`) unless the user explicitly asks and accepts renderer limitations.
+- Avoid renderer-sensitive directives and features unless required: prefer no `%%{init: ...}%%` blocks, no edge IDs or animation syntax, and no custom icon packs.
+
 Label line-break rule:
 
 - Never emit literal `\n` inside Mermaid labels.

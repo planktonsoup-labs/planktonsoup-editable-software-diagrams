@@ -20,6 +20,18 @@ Use Mermaid when a software-development diagram can be expressed as structured t
 - Use `classDiagram` only when type relationships are the point of the diagram.
 - Prefer `flowchart` over `classDiagram` for service architecture unless code structure is the real subject.
 
+## Renderer Compatibility (GitHub-First)
+
+- Default to syntax that renders reliably across Mermaid runtimes, with GitHub as the baseline target.
+- For architecture diagrams, use `flowchart` and avoid `architecture-beta` by default.
+- Avoid diagram families with uneven renderer support unless explicitly requested and called out: `architecture-beta`, `c4`, `packet`, `block`, `sankey`, `xyChart`, `quadrantChart`, `requirement`.
+- Avoid renderer-sensitive features unless required: `%%{init: ...}%%` directives, edge IDs, edge animation, and custom icon-pack dependencies.
+- Use simple node/edge syntax and plain labels over advanced styling shortcuts when compatibility is the priority.
+
+Known compatibility fix:
+
+- If a diagram uses `architecture-beta` and must render in GitHub, rewrite it as a `flowchart` while preserving component names and relationship direction.
+
 ## Practical Patterns
 
 ### Flowchart
@@ -70,6 +82,7 @@ erDiagram
 - Use actual newline characters to separate Mermaid statements; do not serialize line breaks as the literal two-character sequence `\n`.
 - Do not treat `\n` as a portable Mermaid line-break mechanism. If a label needs multiple visual lines, use Mermaid-supported line-break syntax for that diagram family, such as `<br/>` where supported, or shorten and split the wording.
 - Keep Mermaid connector labels visually plain and background-transparent. Do not emulate Draw.io label backfills, filled label plates, or semi-opaque label boxes for Mermaid edge labels.
+- Treat GitHub rendering compatibility as a correctness requirement unless the user explicitly targets a different Mermaid runtime.
 - When `mmdc` is installed locally, use it as the default validation path and require a successful render from the final Mermaid source before considering the edit complete.
 - Preview the rendered diagram when possible and treat visually detached or ambiguous edges as correctness bugs.
 - When a long edge renders as if it misses its target, shorten the route by re-laying out nodes, adding an intermediate anchor node, or splitting the diagram.
