@@ -17,6 +17,7 @@ flowchart TD
 ## Notes
 
 - Keep terminology aligned with the codebase.
+- Use explicit flowchart node IDs with bracketed labels, such as `api[API]`; do not use quoted implicit node IDs like `"API Service"`.
 - Keep Mermaid labels parser-safe. Prefer plain phrases over embedded quoted code examples.
 - Do not use literal `\n` in Mermaid labels; use `<br/>` for visual line breaks when supported.
 - For architecture overviews that must render in GitHub, use `flowchart` and avoid `architecture-beta`.

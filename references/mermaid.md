@@ -43,6 +43,22 @@ flowchart TD
     api --> queue[Queue]
 ```
 
+Declare flowchart nodes with stable explicit IDs and separate labels. This keeps diagrams portable across Mermaid renderers and prevents labels with spaces, slashes, or punctuation from becoming fragile node identifiers.
+
+Instead of:
+
+```text
+flowchart TD
+    "Repository" --> "dotnet/ solution"
+```
+
+Prefer:
+
+```mermaid
+flowchart TD
+    repository[Repository] --> solution[dotnet/ solution]
+```
+
 ### Sequence Diagram
 
 ```mermaid
@@ -73,6 +89,8 @@ erDiagram
 - If Markdown already contains surrounding headings and prose, edit only the relevant fenced block.
 - Save Mermaid source and Markdown files that host Mermaid as UTF-8 without BOM.
 - Preserve existing node IDs when editing an existing Mermaid diagram unless they are actively harmful.
+- Use explicit node IDs with bracketed labels in flowcharts; do not use quoted text as an implicit node ID.
+- Keep node IDs short, stable, and syntax-safe. Put spaces, slashes, punctuation, and display wording in the label, not the ID.
 - Treat Mermaid parser or lexer errors as blocking failures. Resolve them before considering the diagram complete.
 - Verify that every referenced node ID is declared exactly once in the diagram and that edges render to the intended node after any rename or refactor.
 - Avoid unsupported syntax guesses; choose a simpler Mermaid construct when uncertain.
@@ -99,6 +117,7 @@ erDiagram
 - If Mermaid is embedded in Markdown, extract the final fenced block to a temporary `.mmd` file and render that temporary file so the validation matches the exact checked-in source.
 - If multiple Mermaid fenced blocks were edited, validate each edited block.
 - If `mmdc` is not installed, fall back to a Mermaid-compatible preview or to manual structural validation, and note that CLI render validation was unavailable. Do not skip validation.
+- During manual structural validation, scan flowcharts for quoted implicit node IDs such as `"Repository" --> "dotnet/ solution"` and rewrite them as explicit IDs with bracketed labels before completion.
 
 ## Label Safety
 

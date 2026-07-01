@@ -65,7 +65,7 @@ Priority order:
 
 ## Mermaid
 
-Emit valid Mermaid with a single top-level diagram declaration, short stable node IDs, and human-readable labels. Use the diagram family that matches the request. Keep labels concise and parser-safe. Connect edges to concrete nodes, not subgraph IDs. Keep connector labels background-transparent. **Never use `\n` in labels — use `<br/>` for multiline labels or shorten to one line.**
+Emit valid Mermaid with a single top-level diagram declaration, short stable node IDs, and human-readable labels. Use explicit node IDs with bracketed labels, such as `repository[Repository] --> solution[dotnet/ solution]`; never use quoted implicit node IDs such as `"Repository" --> "dotnet/ solution"`. Use the diagram family that matches the request. Keep labels concise and parser-safe. Connect edges to concrete nodes, not subgraph IDs. Keep connector labels background-transparent. **Never use `\n` in labels — use `<br/>` for multiline labels or shorten to one line.**
 
 Mermaid renderer compatibility profile (required by default):
 
@@ -78,6 +78,12 @@ Label line-break rule:
 
 - Never emit literal `\n` inside Mermaid labels.
 - For visual label breaks, use `<br/>` where supported, or rewrite to a shorter single-line label.
+
+Node identity rule:
+
+- Declare every flowchart node with a portable explicit ID and a separate human-readable label.
+- Use lowercase camelCase or snake_case IDs that are stable across label edits.
+- Do not rely on quoted text as an implicit node ID, especially when labels contain spaces, slashes, punctuation, or filesystem paths.
 
 Read [references/mermaid.md](references/mermaid.md) for diagram type selection, label safety, CLI validation, and rendering constraints.
 Start from [assets/mermaid-doc-template.md](assets/mermaid-doc-template.md) for new Markdown-hosted diagrams.
@@ -132,6 +138,7 @@ Before finalizing, verify:
 - [references/drawio.md](references/drawio.md) — XML safety checklist, CLI validation, connector/label rendering
 
 For Mermaid outputs, treat any literal `\n` token in labels as a correctness failure that must be rewritten before completion.
+For Mermaid flowchart outputs, treat quoted implicit node IDs like `"Repository" --> "dotnet/ solution"` as a correctness failure; rewrite them to explicit IDs with bracketed labels before completion.
 
 Use local CLI tools (`mmdc`, `drawio`) when available. Probe for them cross-platform before falling back to preview or manual review.
 Do not mark the task complete while any parse/render/load error remains unresolved.
