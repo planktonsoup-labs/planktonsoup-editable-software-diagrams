@@ -28,7 +28,7 @@ Do not use PlantUML, Excalidraw, SVG, PNG, Visio, or image-generation unless the
 2. Base the diagram on the actual implementation — real modules, services, tables, queues, endpoints, boundaries.
 3. Use MCP tools when they materially improve accuracy or save time. Prefer local workspace inspection first; use repository/GitHub MCP for remote context; use product-specific MCP for external APIs or schemas. Do not invent MCP dependencies.
 4. Reuse the existing format when editing unless the user asks to migrate.
-5. If the diagram type or notation is unclear, research the common convention before inventing a structure.
+5. If the diagram type or notation is unclear, choose a well-known software engineering diagram type before inventing a structure.
 6. Choose the simplest editable format that preserves intent when no format is specified.
 7. Produce diagram source directly — do not describe without creating unless concepts-only is requested.
 8. Validate parser status and rendered structure, not just text syntax. If a required rule fails, the diagram is not complete.
@@ -52,6 +52,22 @@ Priority order:
 5. Default to Mermaid — lighter to diff and edit.
 
 **Migration**: Only migrate between formats when the user requests it. Preserve labels, grouping intent, edge meaning, and terminology. Do not silently migrate during unrelated edits.
+
+## Diagram Type Selection
+
+Default to established software engineering diagram types unless the user asks for a specific notation or an unconventional view. Prefer types that reviewers already recognize: system context, container/service architecture, component/module dependency, runtime sequence, workflow/activity, state machine, deployment topology, and ERD/data model.
+
+Do not invent custom diagram notations, hybrid taxonomies, novelty layouts, or product-specific visual languages when a standard diagram type fits. If the request is ambiguous, pick the standard type that best matches the user's intent:
+
+- Architecture or service boundaries → system context or container/service diagram
+- Module relationships → component/module dependency diagram
+- Runtime interaction → sequence diagram
+- Process or branching logic → workflow/activity diagram
+- Entity lifecycle → state machine
+- Infrastructure placement → deployment topology
+- Tables, entities, or persistence relationships → ERD/data model
+
+Use the requested type when the user names one, even if another standard type might also fit.
 
 ## Editing Existing Diagrams
 

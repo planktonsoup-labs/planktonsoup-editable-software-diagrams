@@ -9,16 +9,18 @@ Use Mermaid when a software-development diagram can be expressed as structured t
 - `stateDiagram-v2` for lifecycle transitions in entities, jobs, or runtime components
 - `classDiagram` for type or module relationships when those relationships matter to the design
 - `erDiagram` for data models and storage relationships
-- `journey`, `timeline`, `gantt`, `pie`, `gitGraph`, `mindmap` when the request clearly matches those views
+- `journey`, `timeline`, `gantt`, `pie`, `gitGraph`, `mindmap` only when the request clearly matches those views or the user asks for them
 
 ## Choose Diagram Type Fast
 
+- Start with well-known software engineering diagram types. Use novelty or specialized Mermaid families only when they are the clearest standard fit for the user's request.
 - Use `flowchart` for process or architecture overviews.
 - Use `sequenceDiagram` when order and message timing matter.
 - Use `stateDiagram-v2` for status transitions and lifecycle rules.
 - Use `erDiagram` for tables, entities, and cardinality.
 - Use `classDiagram` only when type relationships are the point of the diagram.
 - Prefer `flowchart` over `classDiagram` for service architecture unless code structure is the real subject.
+- If the user names a specific diagram type, honor that type when it stays within Mermaid or the user's explicit scope override.
 
 ## Renderer Compatibility (GitHub-First)
 
